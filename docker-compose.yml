@@ -11,28 +11,61 @@ services:
       - "8001:80"
     depends_on:
       - db
+      - userservice_vite
 
-  eventservice:
-    build: ./EventService
-    container_name: laravel_eventservice
-    restart: always
+  userservice_vite:
+    image: node:18
+    container_name: vite_userservice
+    working_dir: /var/www/html
     volumes:
-      - ./EventService:/var/www/html
+      - ./UserService:/var/www/html
     ports:
-      - "8002:80"
-    depends_on:
-      - db
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
 
-  bookingservice:
-    build: ./BookingService
-    container_name: laravel_bookingservice
-    restart: always
-    volumes:
-      - ./BookingService:/var/www/html
-    ports:
-      - "8003:80"
-    depends_on:
-      - db
+  # eventservice:
+  #   build: ./EventService
+  #   container_name: laravel_eventservice
+  #   restart: always
+  #   volumes:
+  #     - ./EventService:/var/www/html
+  #   ports:
+  #     - "8002:80"
+  #   depends_on:
+  #     - db
+  #     - eventservice_vite
+
+  # eventservice_vite:
+  #   image: node:18
+  #   container_name: vite_eventservice
+  #   working_dir: /var/www/html
+  #   volumes:
+  #     - ./EventService:/var/www/html
+  #   ports:
+  #     - "5174:5173"
+  #   command: sh -c "npm install && npm run dev"
+
+  # bookingservice:
+  #   build: ./BookingService
+  #   container_name: laravel_bookingservice
+  #   restart: always
+  #   volumes:
+  #     - ./BookingService:/var/www/html
+  #   ports:
+  #     - "8003:80"
+  #   depends_on:
+  #     - db
+  #     - bookingservice_vite
+
+  # bookingservice_vite:
+  #   image: node:18
+  #   container_name: vite_bookingservice
+  #   working_dir: /var/www/html
+  #   volumes:
+  #     - ./BookingService:/var/www/html
+  #   ports:
+  #     - "5175:5173"
+  #   command: sh -c "npm install && npm run dev"
 
   db:
     image: mysql:8.0
