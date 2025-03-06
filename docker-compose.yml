@@ -1,6 +1,22 @@
 version: '3.8'
 
 services:
+  app:
+    build:
+      context: ./app
+    container_name: app
+    ports:
+      - "8000:80"
+      - "5173:5173"  # Port Vite
+    depends_on:
+      - db
+    volumes:
+      - ./app:/var/www
+      - /var/www/node_modules  # Unikamy problemów z node_modules
+    restart: unless-stopped
+    networks:
+    - backend
+
   # Serwis Users
   users:
     build:
@@ -8,7 +24,7 @@ services:
     container_name: users
     ports:
       - "8001:80"
-      - "5173:5173"  # Port Vite
+      - "5174:5174"  # Port Vite
     depends_on:
       - db
     volumes:
@@ -25,8 +41,12 @@ services:
     container_name: events
     ports:
       - "8002:80"
+      - "5175:5175"  # Port Vite
     depends_on:
       - db
+    volumes:
+      - ./events:/var/www
+      - /var/www/node_modules  # Unikamy problemów z node_modules
     restart: unless-stopped
     networks:
       - backend
