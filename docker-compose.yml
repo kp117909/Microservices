@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Serwis Users
+  users:
+    build:
+      context: ./users
+    container_name: users
+    ports:
+      - "8001:80"
+      - "5173:5173"  # Port Vite
+    depends_on:
+      - db
+    volumes:
+      - ./users:/var/www
+      - /var/www/node_modules  # Unikamy problemów z node_modules
+    restart: unless-stopped
+    networks:
+      - backend
+
+  # Serwis Events
+  events:
+    build:
+      context: ./events
+    container_name: events
+    ports:
+      - "8002:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - backend
+
+  # Baza danych MySQL
+  db:
+    image: mysql:8.0
+    container_name: laravel_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - backend
+
+  # Redis
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
