@@ -8,8 +8,6 @@ class MainController extends Controller
 {
 
     public function index(){
-        // App::setLocale(session('locale', 'en'));
-        return view('welcome');
+        return view('index');
     }
-
 }

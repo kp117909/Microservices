@@ -4,3 +4,9 @@
 2025-03-06 12:11:43,341 INFO spawned: 'vite' with pid 8
 2025-03-06 12:11:45,177 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2025-03-06 12:11:49,181 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
+2025-03-07 14:19:54,824 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-03-07 14:19:54,829 INFO supervisord started with pid 1
+2025-03-07 14:19:55,831 INFO spawned: 'apache2' with pid 7
+2025-03-07 14:19:55,841 INFO spawned: 'vite' with pid 8
+2025-03-07 14:19:57,017 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-03-07 14:20:01,736 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)

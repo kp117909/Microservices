@@ -22,4 +22,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    assetsInclude: ['**/*.ico', '**/*.png', '**/*.jpg'], // Dodaj obsługę favicon
 });
