@@ -32,8 +32,8 @@ RUN npm install vite laravel-vite-plugin
 # Ustawienie właściciela plików
 RUN chown -R www-data:www-data /var/www
 
-# Expose portów (80 - Apache, 5173 - Vite)
-EXPOSE 80 5173
+# Expose portów (80 - Apache, 5174 - Vite)
+EXPOSE 80 5174
 
 # Uruchomienie supervisora
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

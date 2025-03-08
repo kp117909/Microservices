@@ -6,10 +6,10 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         hmr: {
-            clientPort: 5175,
+            clientPort: 5174,
             host: 'localhost',
         },
-        port: 5175,
+        port: 5174,
         watch: {
             usePolling: true,
             pollInterval: 1000  

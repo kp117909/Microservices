@@ -10,10 +10,10 @@ Route::get('/', function () {
 })->name('page.welcome');
 
 Route::get('/login', function () {
-    return view('login');
+    return redirect(env('USERS_SERVICE_URL') . '/login');
 })->name('page.login');
 
 
 Route::get('/register', function () {
-    return view('register');
+    return redirect(env('USERS_SERVICE_URL') . '/register');
 })->name('page.register');
