@@ -29,6 +29,12 @@ Route::middleware(['auth'])->group(function () {
         return view('pages.dashboard');
     })->name('page.dashboard');
 
+
+    Route::get('/profile', function () {
+        return view('pages.profile');
+    })->name('page.profile');
+
+
     Route::get('logout', function () {
         Auth::logout();
         return redirect(env('APP_SERVICE_URL') . '/');

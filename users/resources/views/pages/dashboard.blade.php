@@ -3,32 +3,30 @@
 @include('components.header_login')
 
 <div class="flex-grow container mx-auto p-6 mt-24">
-    <div>
-        <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
-          <div class="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
-            <svg viewBox="0 0 1024 1024" class="absolute top-1/2 left-1/2 -z-10 size-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0" aria-hidden="true">
-              <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
-              <defs>
-                <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
-                  <stop stop-color="#7775D6" />
-                  <stop offset="1" stop-color="#E935C1" />
-                </radialGradient>
-              </defs>
-            </svg>
-            <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
-              <h2 class="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">Welcome {{auth()->user()->name}}</h2>
-              <p class="mt-6 text-lg/8 text-pretty text-gray-300">We are glad, that u joined our coummunity!</p>
-              <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                <a href="#" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Find a event!</a>
-                <a href="#" class="text-sm/6 font-semibold text-white">Your Account<span aria-hidden="true">→</span></a>
-              </div>
-            </div>
-            <div class="relative mt-16 h-80 lg:mt-8">
-              <img class="absolute left-0 w-[37rem] max-w-none rounded-md bg-white/5 ring-1 ring-white/10" src={{Vite::asset('./resources/images/logo_main.png')}} alt="App screenshot" width="1824" height="1080">
-            </div>
+    <div class="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">
+      <div class="relative isolate overflow-hidden bg-gray-900 px-6 pt-16 shadow-2xl sm:rounded-3xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+        <svg viewBox="0 0 1024 1024" class="absolute top-1/2 left-1/2 -z-10 size-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0" aria-hidden="true">
+          <circle cx="512" cy="512" r="512" fill="url(#759c1415-0410-454c-8f7c-9a820de03641)" fill-opacity="0.7" />
+          <defs>
+            <radialGradient id="759c1415-0410-454c-8f7c-9a820de03641">
+              <stop stop-color="#d67496" />
+              <stop offset="1" stop-color="#d67496" />
+            </radialGradient>
+          </defs>
+        </svg>
+        <div class="mx-auto max-w-md text-center lg:mx-0 lg:flex-auto lg:py-32 lg:text-left">
+          <h2 class="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">Find your favourite vibe <p class = "text-blue-200 text-right">{{auth()->user()->name}}</p></h2>
+          <p class="mt-6 text-lg/8 text-pretty text-gray-300">It's nice to have you here!</p>
+          <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
+            <a href="#" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Find a event!</a>
+            <a href="{{route('page.profile')}}" class="text-sm/6 font-semibold text-white">Your Account <span aria-hidden="true">→</span></a>
           </div>
         </div>
+        <div class="relative mt-16 h-80 lg:mt-8">
+          <img class="absolute left-0 w-[31rem] max-w-none rounded-md" src={{Vite::asset('./resources/images/logo_main_no.png')}} alt="App screenshot" width="1824" height="1080">
+        </div>
       </div>
+    </div>
 </div>
 
 @include('components.footer')
