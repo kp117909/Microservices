@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>VibesSync</title>
-        <link rel="icon" href="{{Vite::asset('resources/imgs/logo_main.png')}}">
+        <link rel="icon" href="{{Vite::asset('resources/images/logo_main.png')}}">
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 

@@ -3,7 +3,7 @@
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
               <a href="https://VibesSync.com/" class="flex items-center">
-                  <img src={{Vite::asset('resources/imgs/logo_main.png')}} class="h-24" alt="VibesSync Logo" />
+                  <img src={{Vite::asset('resources/images/logo_main.png')}} class="h-24" alt="VibesSync Logo" />
                   <span class="self-center text-4xl font-semibold whitespace-nowrap dark:text-blue-100">VibesSync</span>
               </a>
           </div>
