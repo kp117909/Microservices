@@ -6,6 +6,11 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
+
+# Zainstaluj PHP Redis (PECL)
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
     
 # Włączenie mod_rewrite dla Apache
 RUN a2enmod rewrite
@@ -24,6 +29,7 @@ COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY composer.json composer.lock ./
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
+
 
 # Instalacja Node.js, Vite i zależności frontendowych
 RUN npm install

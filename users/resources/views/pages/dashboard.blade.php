@@ -18,7 +18,7 @@
           <h2 class="text-3xl font-semibold tracking-tight text-balance text-white sm:text-4xl">Find your favourite vibe <p class = "text-blue-200 text-right">{{auth()->user()->name}}</p></h2>
           <p class="mt-6 text-lg/8 text-pretty text-gray-300">It's nice to have you here!</p>
           <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-            <a href="#" class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Find a event!</a>
+            <a href="{{route('page.events')}}"class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-xs hover:bg-gray-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Find a event!</a>
             <a href="{{route('page.profile')}}" class="text-sm/6 font-semibold text-white">Your Account <span aria-hidden="true">→</span></a>
           </div>
         </div>

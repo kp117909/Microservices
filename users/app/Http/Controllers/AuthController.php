@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Redis;
 
 class AuthController extends Controller
 {
@@ -43,11 +45,49 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials, $request->remember)) {
+            $user = Auth::user();
+            $session_id = Session::getId();
+
+            Redis::setex('session:' . $session_id, 3600, $user->id);
             return redirect()->intended('/dashboard');
         }
 
         return back()->withErrors([
             'email' => 'Niepoprawny adres e-mail lub hasło.',
         ]);
+    }
+
+    public function redirectEvents()
+    {
+        $user = Auth::user();
+        $session_id = Session::getId();
+
+        Redis::setex('session:' . $session_id, 3600, $user->id);
+        
+        return redirect(env('EVENTS_SERVICE_URL') .'/events?session_id=' . $session_id);
+    }
+
+    public function authSession(Request $request)
+    {
+        $session_id = $request->query('session_id'); 
+
+        if (!$session_id) {
+            return redirect(env('APP_SERVICE_URL') . '/');
+        }
+        
+        $user_id = Redis::get('session:' . $session_id);
+      
+        if (!$user_id) {
+            return redirect(env('APP_SERVICE_URL') . '/');
+        }
+
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return redirect(env('APP_SERVICE_URL') . '/');
+        }
+
+        Auth::loginUsingId($user_id);
+        return redirect()->route('page.dashboard');
     }
 }

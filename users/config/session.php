@@ -18,8 +18,8 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'database'),
-
+    // 'driver' => env('SESSION_DRIVER', 'database'), old 
+    'driver' => env('SESSION_DRIVER', 'redis'),
     /*
     |--------------------------------------------------------------------------
     | Session Lifetime
@@ -73,7 +73,8 @@ return [
     |
     */
 
-    'connection' => env('SESSION_CONNECTION'),
+    // 'connection' => env('SESSION_CONNECTION'),  old
+    'connection' => env('SESSION_CONNECTION', 'default'),
 
     /*
     |--------------------------------------------------------------------------

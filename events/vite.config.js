@@ -6,10 +6,10 @@ export default defineConfig({
     server: {
         host: '0.0.0.0',
         hmr: {
-            clientPort: 5174,
+            clientPort: 5175,
             host: 'localhost',
         },
-        port: 5174,
+        port: 5175,
         watch: {
             usePolling: true,
             pollInterval: 1000  
@@ -22,4 +22,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    assetsInclude: ['**/*.ico', '**/*.png', '**/*.jpg'], // Dodaj obsługę favicon
 });

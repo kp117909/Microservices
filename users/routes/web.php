@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
+
 Route::get('/', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
 })->name('page.welcome');
@@ -42,6 +43,12 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+
+Route::get('/ext/logout', function () {
+    Auth::logout();
+    return redirect(env('APP_SERVICE_URL') . '/');
+})->name('ext.logout');
+
 Route::prefix('/api/users')->group(function () {
     Route::get('/', [UserController::class, 'index']);      
     Route::post('/', [UserController::class, 'store']);     
@@ -50,3 +57,8 @@ Route::prefix('/api/users')->group(function () {
     Route::patch('/{id}', [UserController::class, 'update']);
     Route::delete('/{id}', [UserController::class, 'destroy']); 
 });
+
+Route::get('/events', [AuthController::class, 'redirectEvents'])->name('page.events');
+
+
+Route::get('/auth/session', [AuthController::class, 'authSession'])->name('auth.session');

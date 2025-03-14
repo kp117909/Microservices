@@ -7,6 +7,12 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install gd pdo pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
     
+
+# Zainstaluj PHP Redis (PECL)
+RUN pecl install redis \
+    && docker-php-ext-enable redis
+
+
 # Włączenie mod_rewrite dla Apache
 RUN a2enmod rewrite
 

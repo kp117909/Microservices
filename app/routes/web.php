@@ -17,3 +17,8 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return redirect(env('USERS_SERVICE_URL') . '/register');
 })->name('page.register');
+
+
+Route::get('/events', function () {
+    return redirect(env('EVENTS_SERVICE_URL') . '/events');
+})->name('page.events');

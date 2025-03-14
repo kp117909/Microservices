@@ -6,7 +6,7 @@
         </a>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">Events</a>
+        <a href="{{route('page.events')}}" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">Events</a>
         <a href="{{route('page.welcome')}}" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">Home</a>
         <a href="#" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">People</a>
       </div>
