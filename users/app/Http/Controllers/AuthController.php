@@ -60,13 +60,24 @@ class AuthController extends Controller
     public function redirectEvents()
     {
         $user = Auth::user();
-        $session_id = Session::getId();
-
-        Redis::setex('session:' . $session_id, 3600, $user->id);
         
-        return redirect(env('EVENTS_SERVICE_URL') .'/events?session_id=' . $session_id);
+        $session_id = Session::getId();
+        
+        if ($user) {
+            Redis::setex('session:' . $session_id, 3600, $user->id);
+            return redirect(env('EVENTS_SERVICE_URL') . '/events?session_id=' . $session_id);
+        } else {
+            return redirect(env('EVENTS_SERVICE_URL') . '/events');
+        }
     }
 
+
+    public function redirectUsersList()
+    {
+        $users = User::paginate(5);
+
+        return view('pages/users_list', compact('users'));
+    }
     public function authSession(Request $request)
     {
         $session_id = $request->query('session_id'); 

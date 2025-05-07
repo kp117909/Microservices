@@ -12,7 +12,7 @@
         @else
         <a href="{{ route('page.welcome') }}" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">Home</a>
         @endauth
-        <a href="#" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">People</a>
+        <a href="{{ route('page.users_list') }}" class="text-m/6 font-semibold text-blue-100 hover:text-gray-900 hover:underline">People</a>
       </div>
       
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">

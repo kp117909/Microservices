@@ -23,13 +23,14 @@ COPY . .
 
 # Kopiowanie konfiguracji Apache i Supervisord
 COPY ./apache2/000-default.conf /etc/apache2/sites-available/000-default.conf
-COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
+#COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./supervisord.conf /etc/supervisord.conf
 # Instalacja Composer
 COPY composer.json composer.lock ./
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
+RUN mkdir -p /var/log/supervisor
 
 # Instalacja Node.js, Vite i zależności frontendowych
 RUN npm install
@@ -38,8 +39,13 @@ RUN npm install vite laravel-vite-plugin
 # Ustawienie właściciela plików
 RUN chown -R www-data:www-data /var/www
 
+# Zapewnienie odpowiednich uprawnień do zapisu w katalogach Laravel
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 # Expose portów (80 - Apache, 5174 - Vite)
 EXPOSE 80 5174
 
 # Uruchomienie supervisora
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+#CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

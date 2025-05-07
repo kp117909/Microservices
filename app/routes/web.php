@@ -22,3 +22,7 @@ Route::get('/register', function () {
 Route::get('/events', function () {
     return redirect(env('EVENTS_SERVICE_URL') . '/events');
 })->name('page.events');
+
+Route::get('/users_list', function () {
+    return redirect(env('USERS_SERVICE_URL') . '/users_list');
+})->name('page.users_list');

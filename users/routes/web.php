@@ -60,5 +60,7 @@ Route::prefix('/api/users')->group(function () {
 
 Route::get('/events', [AuthController::class, 'redirectEvents'])->name('page.events');
 
+Route::get('/users_list', [AuthController::class, 'redirectUsersList'])->name('page.users_list');
+
 
 Route::get('/auth/session', [AuthController::class, 'authSession'])->name('auth.session');
