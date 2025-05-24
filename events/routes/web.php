@@ -8,7 +8,6 @@ Route::get('/', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
 })->name('page.welcome');
 
-
 Route::get('/events', [AuthController::class, 'authUserFromSession'])->name('page.events');
 
 Route::get('logout', function () {
@@ -26,9 +25,16 @@ Route::get('logout', function () {
 })->name('ext.logout');
 
 
-Route::get('/dashboard', [AuthController::class, 'redirectUsers'])->name('page.dashboard');
-
+Route::get('/dashboard', [AuthController::class, 'redirectToUsers'])->name('page.dashboard');
 
 Route::get('/profile', function () {
     return redirect(env('USERS_SERVICE_URL') . '/profile');
 })->name('page.profile');
+
+Route::get('/users_list', function () {
+    return redirect(env('USERS_SERVICE_URL') . '/users_list');
+})->name('page.users_list');
+
+// Route::get('/dashboard', function () {
+//     return redirect(env('USERS_SERVICE_URL') . '/dashboard');
+// })->name('page.dashboard');

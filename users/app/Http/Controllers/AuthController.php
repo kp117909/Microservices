@@ -78,6 +78,7 @@ class AuthController extends Controller
 
         return view('pages/users_list', compact('users'));
     }
+    
     public function authSession(Request $request)
     {
         $session_id = $request->query('session_id'); 

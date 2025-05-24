@@ -12,7 +12,7 @@
                 @csrf
                 @method('PATCH')
                 <div class="mx-auto max-w-2xl text-center">
-                    <p class="mt-2 text-lg/8 text-gray-600 font-semibold">{{__('Informations')}}</p>
+                    <h2 class="text-xl md:text-xl font-extrabold text-gray-900 dark:text-white mb-6">{{__('Informations')}}</h2>
                 </div>
                 <div class="grid max-w-2xl mx-aut">
                     {{-- <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
@@ -26,10 +26,18 @@
                             <button type="submit" class="text-white dark:bg-gray-600 hover:dark:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-gray-800">{{__('Delete Picture')}}</button>
                         </div>
                     </div> --}}
+                {{-- DO USUNIECI    A --}}
+                <div class="text-center">
+                    <div>
+                        <img src="https://i.pravatar.cc/300" alt="Profile Picture" class="rounded-full w-32 h-32 mx-auto border-4 text-gray-900 mb-4 transition-transform duration-300 hover:scale-105 ring ring-gray-300">
+                        <input type="file" name="profile" id="upload_profile" hidden required>
+                    </div>
+                  <button type="" class="text-white dark:bg-gray-600 hover:dark:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-gray-800">{{__('Change Photo')}}</button>
+                </div>
 
                     <div class="items-center mt-8 sm:mt-4 text-[#202142]">
                         <div class="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
-
+                                
                             <div class="w-full">
                                 <label for="name" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Name')}}</label>
                                 <input type="name" id="name" name="name" value="{{ auth()->user()->name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('name') border-red-500 @enderror" />
@@ -92,14 +100,24 @@
                                 @enderror
                             </div>
                         </div> --}}
+                        
+                          <div class="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
+                            <div class="w-full">
+                                <label for="music_genre" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Favourites Music Genre')}}</label>
+                                <input type="music_genre" id="music_genre" name="music_genre" value="{{ auth()->user()->music_genre }}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('email') border-red-500 @enderror" />
+                                @error('music_genre')
+                                    <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            
+                            <div class="w-full">
+                                <label for="phone" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Localization')}}</label>
+                                <input type="phone" id="phone" name="phone" value=" Poland "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
+                                @error('phone')
+                                    <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-
-                        <div class="mb-6">
-                            <label for="music_genre" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Favourites Music Genre')}}</label>
-                            <input type="music_genre" id="music_genre" name="music_genre" value="{{ auth()->user()->music_genre }}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('music_genre') border-red-500 @enderror" />
-                            @error('music_genre')
-                                <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
-                            @enderror
                         </div>
 
                         <div class="flex">
@@ -111,10 +129,50 @@
         </div>
         <div class="w-full px-6 pb-8 sm:max-w-xl sm:rounded-lg">
             <div class="mx-auto max-w-2xl text-center">
-                <p class="mt-2 text-lg/8 text-gray-600 font-semibold">{{__('Your Events')}}</p>
+                  <h2 class="text-xl md:text-xl font-extrabold text-gray-900 dark:text-white mb-6">{{__('Your events')}}</h2>
             </div>
-        </div>
+            <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+                <div class="space-y-8">
+                    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
+                       <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 mb-2">
+                        Concert
+                        </span>
+                        <h3 class="text-gray-900 dark:text-white text-2xl font-bold mb-2">Summer Music Festival</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Date: 2025-07-10</p>
+                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
+                        Join us for an unforgettable evening of live music in the heart of the city. Local artists and headline acts will be performing.
+                        </p>
+                        <div class="flex justify-between w-full">
+                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Event Details
+                            </a>
+                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-red-900 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Leave Event
+                            </a>
+                        </div>
+                    </div>
 
+                    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
+                        <span class="bg-green-100 text-green-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 mb-2">
+                        Meetup
+                        </span>
+                        <h3 class="text-gray-900 dark:text-white text-2xl font-bold mb-2">Jazz Evening</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Date: 2025-08-02</p>
+                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
+                        A cozy café, candlelight, and atmospheric jazz. Let’s meet, chat, and enjoy great music.
+                        </p>
+                        <div class="flex justify-between w-full">
+                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Event Details
+                            </a>
+                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-red-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Leave Event
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
     </div>
 </div>
 

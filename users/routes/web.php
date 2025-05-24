@@ -62,5 +62,4 @@ Route::get('/events', [AuthController::class, 'redirectEvents'])->name('page.eve
 
 Route::get('/users_list', [AuthController::class, 'redirectUsersList'])->name('page.users_list');
 
-
 Route::get('/auth/session', [AuthController::class, 'authSession'])->name('auth.session');
