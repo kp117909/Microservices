@@ -33,26 +33,64 @@
           <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
       @enderror
   </div>
-  
-  <div class="relative z-0 w-full mb-5 group">
-      <input type="password" value = "{{old('password')}}" name="password" id="password" class="block py-2.5 px-0 w-full text-sm 
-          @error('password') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
-          bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
-      <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Password')}}</label>
-      @error('password')
-          <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-      @enderror
+
+   <div class="grid md:grid-cols-3 md:gap-6">
+
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" value = "{{old('country')}}" name="country" id="country" class="block py-2.5 px-0 w-full text-sm 
+            @error('country') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="country" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Country')}}</label>
+        @error('country')
+            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+        @enderror
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" value = "{{old('city')}}" name="city" id="city" class="block py-2.5 px-0 w-full text-sm 
+            @error('city') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="city" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('City')}}</label>
+        @error('city')
+            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+        @enderror
+    </div>
+
+    
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="text" value = "{{old('city')}}" name="code" id="code" class="block py-2.5 px-0 w-full text-sm 
+            @error('code') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="code" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Zip Code')}}</label>
+        @error('code')
+            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+        @enderror
+    </div>
+
   </div>
-  
-  <div class="relative z-0 w-full mb-5 group">
-      <input type="password" value = "{{old('password_confirmation')}}" name="password_confirmation" id="password_confirmation" class="block py-2.5 px-0 w-full text-sm 
-          @error('password_confirmation') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
-          bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
-      <label for="password_confirmation" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Confirm password')}}</label>
-      @error('password_confirmation')
-          <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
-      @enderror
+
+ <div class="grid md:grid-cols-2 md:gap-6">
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="password" value = "{{old('password')}}" name="password" id="password" class="block py-2.5 px-0 w-full text-sm 
+            @error('password') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Password')}}</label>
+        @error('password')
+            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+        @enderror
+    </div>
+    
+    <div class="relative z-0 w-full mb-5 group">
+        <input type="password" value = "{{old('password_confirmation')}}" name="password_confirmation" id="password_confirmation" class="block py-2.5 px-0 w-full text-sm 
+            @error('password_confirmation') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="password_confirmation" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Confirm password')}}</label>
+        @error('password_confirmation')
+            <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
+        @enderror
+    </div>
   </div>
+
   
   <div class="grid md:grid-cols-2 md:gap-6">
       <div class="relative z-0 w-full mb-5 group">
