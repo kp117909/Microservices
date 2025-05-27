@@ -51,6 +51,23 @@ services:
     networks:
       - backend
 
+      # Serwis Events
+  bookings:
+    build:
+      context: ./bookings
+    container_name: bookings
+    ports:
+      - "8003:80"
+      - "5176:5176"  # Port Vite
+    depends_on:
+      - db
+    volumes:
+      - ./bookings:/var/www
+      - /var/www/node_modules  # Unikamy problemów z node_modules
+    restart: unless-stopped
+    networks:
+      - backend
+
   # Baza danych MySQL
   db:
     image: mysql:8.0

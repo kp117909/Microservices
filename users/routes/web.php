@@ -49,14 +49,6 @@ Route::get('/ext/logout', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
 })->name('ext.logout');
 
-Route::prefix('/api/users')->group(function () {
-    Route::get('/', [UserController::class, 'index']);      
-    Route::post('/', [UserController::class, 'store']);     
-    Route::get('/{id}', [UserController::class, 'show']); 
-    Route::put('/{id}', [UserController::class, 'update']); 
-    Route::patch('/{id}', [UserController::class, 'update']);
-    Route::delete('/{id}', [UserController::class, 'destroy']); 
-});
 
 Route::get('/events', [AuthController::class, 'redirectEvents'])->name('page.events');
 

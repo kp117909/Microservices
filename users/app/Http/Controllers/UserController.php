@@ -24,8 +24,9 @@ class UserController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
+{
+    try {
+        $validatedData = $request->validate([
             'name' => 'required|string|max:25',
             'first_name' => 'required|string|max:25',
             'last_name' => 'required|string|max:25',
@@ -34,20 +35,25 @@ class UserController extends Controller
             'phone' => ['required', 'string', 'regex:/^\d{3}\d{3}\d{3}$/', 'unique:users,phone'],
             'music_genre' => 'required|string|max:255',
         ]);
-
-
-        $user = User::create([
-            'name' => $request->name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'music_genre' => $request->music_genre,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json($user, 201);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json([
+            'errors' => $e->errors()
+        ], 422);
     }
+
+    // Tworzenie użytkownika po pomyślnej walidacji
+    $user = User::create([
+        'name' => $validatedData['name'],
+        'first_name' => $validatedData['first_name'],
+        'last_name' => $validatedData['last_name'],
+        'email' => $validatedData['email'],
+        'phone' => $validatedData['phone'],
+        'music_genre' => $validatedData['music_genre'],
+        'password' => Hash::make($validatedData['password']),
+    ]);
+
+    return response()->json($user, 201);
+}
 
     public function update(Request $request, $id)
     {
