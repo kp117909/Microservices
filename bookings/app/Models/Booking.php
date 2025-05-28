@@ -14,3 +14,4 @@ class Booking extends Model
         'event_id',
     ];
 }
+

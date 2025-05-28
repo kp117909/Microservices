@@ -41,5 +41,12 @@ RUN chown -R www-data:www-data /var/www
 # Expose portów (80 - Apache, 5176 - Vite)
 EXPOSE 80 5176
 
+# Kopiuj entrypoint.sh do obrazu
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Ustaw entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
+
 # Uruchomienie supervisora
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

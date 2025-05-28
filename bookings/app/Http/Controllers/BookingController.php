@@ -4,60 +4,112 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Http\Controllers\BookingsApiController;
 
 class BookingController extends Controller
 {
     public function index()
     {
-        return response()->json(Booking::all(), 200);
+        try {
+            $bookings = Booking::all();
+            return response()->json($bookings, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error fetching bookings', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|integer',
-            'event_id' => 'required|integer',
-        ]);
+        try {
+            $validated = $request->validate([
+                'user_id' => 'required|integer',
+                'event_id' => 'required|integer',
+            ]);
 
-        $booking = Booking::create($validated);
+            // Sprawdzanie czy użytkownik istnieje
+            if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
+                return response()->json(['error' => 'User does not exist'], 400);
+            }
 
-        return response()->json($booking, 201);
+            // Sprawdzanie czy wydarzenie istnieje
+            if(!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
+                return response()->json(['error' => 'Event does not exist'], 400);
+            }
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
+
+        try {
+            $booking = Booking::create($validated);
+            return response()->json($booking, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to create booking', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function show($id)
     {
-        $booking = Booking::find($id);
-
-        if (!$booking) {
+        try {
+            $booking = Booking::findOrFail($id);
+            return response()->json($booking, 200);
+        } catch (ModelNotFoundException) {
             return response()->json(['message' => 'Booking not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error fetching booking', 'error' => $e->getMessage()], 500);
         }
-
-        return response()->json($booking, 200);
     }
 
     public function update(Request $request, $id)
     {
-        $booking = Booking::find($id);
-
-        if (!$booking) {
+        try {
+            $booking = Booking::findOrFail($id);
+        } catch (ModelNotFoundException) {
             return response()->json(['message' => 'Booking not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Error fetching booking', 'error' => $e->getMessage()], 500);
         }
 
-        $booking->update($request->only(['user_id', 'event_id']));
+        try {
+            $validated = $request->validate([
+                'user_id' => 'sometimes|integer',
+                'event_id' => 'sometimes|integer',
+            ]);
 
-        return response()->json($booking, 200);
+            // // Sprawdzanie czy użytkownik istnieje
+            // if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
+            //     return response()->json(['error' => 'User does not exist'], 400);
+            // }
+
+            // // Sprawdzanie czy wydarzenie istnieje
+            // if(!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
+            //     return response()->json(['error' => 'Event does not exist'], 400);
+            // }
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->errors()], 422);
+        }
+
+        // Aktualizacja danych
+        try {
+            $booking->update($validated);
+            return response()->json($booking, 200);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to update booking', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function destroy($id)
     {
-        $booking = Booking::find($id);
-
-        if (!$booking) {
+        try {
+            $booking = Booking::findOrFail($id);
+            $booking->delete();
+            return response()->json(['message' => 'Booking deleted'], 200);
+        } catch (ModelNotFoundException) {
             return response()->json(['message' => 'Booking not found'], 404);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete booking', 'error' => $e->getMessage()], 500);
         }
-
-        $booking->delete();
-
-        return response()->json(['message' => 'Booking deleted'], 200);
     }
 }

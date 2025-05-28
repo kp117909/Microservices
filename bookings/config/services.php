@@ -14,6 +14,9 @@ return [
     |
     */
 
+    'events' => env('EVENTS_SERVICE_URL', 'http://localhost:8001'),
+    'users' => env('USERS_SERVICE_URL', 'http://localhost:8002'),
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],

@@ -2,8 +2,6 @@ d<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EventController;
-
 Route::get('/', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
 })->name('page.welcome');
@@ -38,13 +36,3 @@ Route::get('/users_list', function () {
 // Route::get('/dashboard', function () {
 //     return redirect(env('USERS_SERVICE_URL') . '/dashboard');
 // })->name('page.dashboard');
-
-
-Route::prefix('/api/events')->group(function () {
-    Route::get('/', [EventController::class, 'index']);    
-    Route::post('/', [EventController::class, 'store']);  
-    Route::get('/{id}', [EventController::class, 'show']);     
-    Route::put('/{id}', [EventController::class, 'update']);   
-    Route::patch('/{id}', [EventController::class, 'update']);
-    Route::delete('/{id}', [EventController::class, 'destroy']); 
-});
