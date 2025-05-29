@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Controllers\BookingsApiController;
+use App\Http\Controllers\BookingsApiControllercd;
 
 class BookingController extends Controller
 {
@@ -27,14 +27,20 @@ class BookingController extends Controller
                 'event_id' => 'required|integer',
             ]);
 
-            // Sprawdzanie czy użytkownik istnieje
             if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
                 return response()->json(['error' => 'User does not exist'], 400);
             }
 
-            // Sprawdzanie czy wydarzenie istnieje
             if(!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
                 return response()->json(['error' => 'Event does not exist'], 400);
+            }
+
+            $existingBooking = Booking::where('user_id', $validated['user_id'])
+                ->where('event_id', $validated['event_id'])
+                ->first();
+
+            if ($existingBooking) {
+                return response()->json(['error' => 'This user is already registered for this event'], 400);
             }
 
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -61,44 +67,6 @@ class BookingController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            $booking = Booking::findOrFail($id);
-        } catch (ModelNotFoundException) {
-            return response()->json(['message' => 'Booking not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error fetching booking', 'error' => $e->getMessage()], 500);
-        }
-
-        try {
-            $validated = $request->validate([
-                'user_id' => 'sometimes|integer',
-                'event_id' => 'sometimes|integer',
-            ]);
-
-            // // Sprawdzanie czy użytkownik istnieje
-            // if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
-            //     return response()->json(['error' => 'User does not exist'], 400);
-            // }
-
-            // // Sprawdzanie czy wydarzenie istnieje
-            // if(!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
-            //     return response()->json(['error' => 'Event does not exist'], 400);
-            // }
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['errors' => $e->errors()], 422);
-        }
-
-        // Aktualizacja danych
-        try {
-            $booking->update($validated);
-            return response()->json($booking, 200);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to update booking', 'error' => $e->getMessage()], 500);
-        }
-    }
 
     public function destroy($id)
     {
