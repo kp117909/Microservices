@@ -77,70 +77,70 @@
 
         <hr class="my-6 border-gray-300 dark:border-gray-600">
 
-  <div class="text-center text-white font-semibold  text-lg mb-4">{{__('Create New Event')}}</div>
+        <div class="text-center text-white font-semibold  text-lg mb-4">{{__('Create New Event')}}</div>
 
-  <form method="POST" action="" enctype="multipart/form-data" class="space-y-4">
-    @csrf
+        <form method="POST" action="{{ route('events.store') }}" enctype="multipart/form-data" class="space-y-4">
+          @csrf
 
-    <div>
-      <label for="name" class="block mb-1 text-sm font-medium text-white">Name</label>
-      <input type="text" name="name" id="name" required
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-    </div>
+          <div>
+            <label for="name" class="block mb-1 text-sm font-medium text-white">Name</label>
+            <input type="text" name="name" id="name" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+          </div>
 
-    <div>
-      <label for="location" class="block mb-1 text-sm font-medium text-white">Location</label>
-      <input type="text" name="location" id="location" required
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-    </div>
+          <div>
+            <label for="location" class="block mb-1 text-sm font-medium text-white">Location</label>
+            <input type="text" name="location" id="location" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+          </div>
 
-    <div>
-      <label for="start_time" class="block mb-1 text-sm font-medium text-white">Start Time</label>
-      <input type="datetime-local" name="start_time" id="start_time" required
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-    </div>
+          <div>
+            <label for="start_time" class="block mb-1 text-sm font-medium text-white">Start Time</label>
+            <input type="datetime-local" name="start_time" id="start_time" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+          </div>
 
-    <div>
-      <label for="end_time" class="block mb-1 text-sm font-medium text-white">End Time</label>
-      <input type="datetime-local" name="end_time" id="end_time"
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-    </div>
+          <div>
+            <label for="end_time" class="block mb-1 text-sm font-medium text-white">End Time</label>
+            <input type="datetime-local" name="end_time" id="end_time"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+          </div>
 
-    <div>
-      <label for="type" class="block mb-1 text-sm font-medium text-white">Type</label>
-      <select name="type" id="type" required
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-        <option value="Concert">Concert</option>
-        <option value="Festival">Festival</option>
-        <option value="Meetup">Meetup</option>
-        <option value="Workshop">Workshop</option>
-      </select>
-    </div>
+          <div>
+            <label for="type" class="block mb-1 text-sm font-medium text-white">Type</label>
+            <select name="type" id="type" required
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+              <option value="Concert">Concert</option>
+              <option value="Festival">Festival</option>
+              <option value="Meetup">Meetup</option>
+              <option value="Workshop">Workshop</option>
+            </select>
+          </div>
 
-    <div>
-      <label for="music_genre" class="block mb-1 text-sm font-medium text-white">Genre</label>
-      <select name="music_genre" id="music_genre"
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
-        <option value="Rock">Rock</option>
-        <option value="Pop">Pop</option>
-        <option value="Jazz">Jazz</option>
-        <option value="Hip-Hop">Hip-Hop</option>
-      </select>
-    </div>
+          <div>
+            <label for="music_genre" class="block mb-1 text-sm font-medium text-white">Genre</label>
+            <select name="music_genre" id="music_genre"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
+              <option value="Rock">Rock</option>
+              <option value="Pop">Pop</option>
+              <option value="Jazz">Jazz</option>
+              <option value="Hip-Hop">Hip-Hop</option>
+            </select>
+          </div>
 
-    <div>
-      <label for="description" class="block mb-1 text-sm font-medium text-white">Description</label>
-      <textarea name="description" id="description" rows="3"
-        class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"></textarea>
-    </div>
+          <div>
+            <label for="description" class="block mb-1 text-sm font-medium text-white">Description</label>
+            <textarea name="description" id="description" rows="3"
+              class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600"></textarea>
+          </div>
 
-    <div class="flex justify-center">
-      <button type="submit"
-        class="inline-flex items-center justify-center text-white bg-purple-900 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5">
-        Create Event
-      </button>
-    </div>
-  </form>
+          <div class="flex justify-center">
+            <button type="submit"
+              class="inline-flex items-center justify-center text-white bg-purple-900 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5">
+              Create Event
+            </button>
+          </div>
+        </form>
       </aside>
 
       

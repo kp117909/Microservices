@@ -2,6 +2,7 @@ d<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EventController;
 Route::get('/', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
 })->name('page.welcome');
@@ -32,6 +33,8 @@ Route::get('/profile', function () {
 Route::get('/users_list', function () {
     return redirect(env('USERS_SERVICE_URL') . '/users_list');
 })->name('page.users_list');
+
+Route::post('/events', [EventController::class, 'store'])->name('events.store');
 
 // Route::get('/dashboard', function () {
 //     return redirect(env('USERS_SERVICE_URL') . '/dashboard');

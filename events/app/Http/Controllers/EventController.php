@@ -20,25 +20,19 @@ class EventController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $validated = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'location' => 'nullable|string|max:255',
-                'start_time' => 'required|date',
-                'end_time' => 'required|date|after_or_equal:start_time',
-                'music_genre' => 'nullable|string|max:255',
-                'type' => 'nullable|string|max:255',
-            ]);
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'location' => 'required|string|max:255',
+            'start_time' => 'required|date',
+            'end_time' => 'nullable|date|after_or_equal:start_time',
+            'type' => 'required|in:Concert,Festival,Meetup,Workshop',
+            'music_genre' => 'nullable|string|max:100',
+            'description' => 'nullable|string|max:1000',
+        ]);
 
-            $event = Event::create($validated);
+        $event = Event::create($validated);
 
-            return response()->json($event, 201);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['message' => 'Validation failed', 'errors' => $e->errors()], 422);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Failed to create event', 'error' => $e->getMessage()], 500);
-        }
+        return redirect()->back();
     }
 
     public function show($id)
