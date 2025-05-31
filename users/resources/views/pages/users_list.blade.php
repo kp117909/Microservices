@@ -61,14 +61,17 @@
                             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
                                 {{ $user->email }}
                             </p>
+                             <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                {{ $user->country }}
+                            </p>
                         </div>
-
-                        <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                        {{-- Koncept --}}
+                        {{-- <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                             <p class="mt-1 text-xs/5 text-gray-500">Last seen <time datetime="2023-01-23T13:23Z">3h ago</time></p>
-                        </div>
+                        </div> --}}
                         <div class="flex items-center gap-3 text-base font-semibold text-gray-900 dark:text-white">
                             &nbsp;{{ $user->music_genre }}
-                            <a href="" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 hover:bg-gray-800 text-white transition" title="Private chat">
+                            {{-- <a href="" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-600 hover:bg-gray-800 text-white transition" title="Private chat">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.978 9.978 0 01-4.41-1.026L3 21l1.84-4.617A8.96 8.96 0 013 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                                 </svg>
@@ -78,7 +81,7 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 5v14M5 5h9l-1.5 4L14 13H5"/>
                                 </svg>
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                   </li>

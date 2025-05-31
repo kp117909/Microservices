@@ -37,12 +37,15 @@ class UserController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'name' => 'required|string|max:25',
+                'name' => 'required|string|max:25|unique:users',
                 'first_name' => 'required|string|max:25',
                 'last_name' => 'required|string|max:25',
                 'email' => 'required|string|email|max:50|unique:users',
                 'password' => 'required|string|min:3|confirmed',
                 'phone' => ['required', 'string', 'regex:/^\d{3}\d{3}\d{3}$/', 'unique:users,phone'],
+                'country' => 'required|string|max:100',
+                'city' => 'required|string|max:100',
+                'zip_code' => 'required|string|max:20',
                 'music_genre' => 'required|string|max:255',
             ]);
         } catch (ValidationException $e) {
@@ -57,6 +60,9 @@ class UserController extends Controller
                 'email' => $validatedData['email'],
                 'phone' => $validatedData['phone'],
                 'music_genre' => $validatedData['music_genre'],
+                'country' => $validatedData['country'],
+                'city' => $validatedData['city'],
+                'zip_code' => $validatedData['zip_code'],
                 'password' => Hash::make($validatedData['password']),
             ]);
             return response()->json($user, 201);
@@ -64,6 +70,7 @@ class UserController extends Controller
             return response()->json(['message' => 'Failed to create user', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function update(Request $request, $id)
     {
@@ -77,11 +84,13 @@ class UserController extends Controller
 
         try {
             $validated = $request->validate([
-                'name' => 'sometimes|string|max:25',
+                'name' => 'sometimes|string|max:25|unique:users',
                 'first_name' => 'sometimes|string|max:25',
                 'last_name' => 'sometimes|string|max:25',
                 'email' => 'sometimes|string|email|max:50|unique:users,email,' . $user->id,
-                // 'password' => 'sometimes|string|min:3|confirmed',
+                'country' => 'sometimes|string|max:100',
+                'city' => 'sometimes|string|max:100',
+                'zip_code' => 'sometimes|string|max:20',
                 'phone' => ['sometimes', 'string', 'regex:/^\d{3}\d{3}\d{3}$/', 'unique:users,phone,' . $user->id],
                 'music_genre' => 'sometimes|string|max:255',
             ]);

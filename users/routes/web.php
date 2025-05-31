@@ -29,12 +29,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('pages.dashboard');
     })->name('page.dashboard');
-
+    
 
     Route::get('/profile', function () {
         return view('pages.profile');
     })->name('page.profile');
 
+    Route::patch('/users/{id}', [AuthController::class, 'update'])->name('users_form.update');
 
     Route::get('logout', function () {
         Auth::logout();

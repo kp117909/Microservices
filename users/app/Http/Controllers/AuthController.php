@@ -14,30 +14,70 @@ class AuthController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:25',
+     
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:25|unique:users',
             'first_name' => 'required|string|max:25',
             'last_name' => 'required|string|max:25',
             'email' => 'required|string|email|max:50|unique:users',
             'password' => 'required|string|min:3|confirmed',
             'phone' => ['required', 'string', 'regex:/^\d{3}\d{3}\d{3}$/', 'unique:users,phone'],
+            'country' => 'required|string|max:100',
+            'city' => 'required|string|max:100',
+            'zip_code' => 'required|string|max:20',
             'music_genre' => 'required|string|max:255',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'music_genre' => $request->music_genre,
-            'password' => Hash::make($request->password),
+            'name' => $validatedData['name'],
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'phone' => $validatedData['phone'],
+            'music_genre' => $validatedData['music_genre'],
+            'country' => $validatedData['country'],
+            'city' => $validatedData['city'],
+            'zip_code' => $validatedData['zip_code'],
+            'password' => Hash::make($validatedData['password']),
         ]);
 
         Auth::login($user);
         
 
-        return redirect()->route('dashboard');
+        return view('auth.login');
+    }
+
+
+    public function update(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:25|unique:users',
+            'first_name' => 'sometimes|string|max:25',
+            'last_name' => 'sometimes|string|max:25',
+            'email' => 'sometimes|string|email|max:50|unique:users,email,' . $user->id,
+            'country' => 'sometimes|string|max:100',
+            'city' => 'sometimes|string|max:100',
+            'zip_code' => 'sometimes|string|max:20',
+            'phone' => ['sometimes', 'string', 'regex:/^\d{3}\d{3}\d{3}$/', 'unique:users,phone,' . $user->id],
+            'music_genre' => 'sometimes|string|max:255',
+        ]);
+
+
+        // Filtrowanie zmian
+        $filteredData = array_filter($validated, function ($value, $key) use ($user) {
+            return !is_null($value) && $value !== '' && $user->$key !== $value;
+        }, ARRAY_FILTER_USE_BOTH);
+
+        if (isset($filteredData['password'])) {
+            $filteredData['password'] = Hash::make($filteredData['password']);
+        }
+
+        $user->update($filteredData);
+
+        return redirect()->back();
     }
 
     public function login(Request $request)
@@ -72,11 +112,28 @@ class AuthController extends Controller
     }
 
 
-    public function redirectUsersList()
+    public function redirectUsersList(Request $request)
     {
-        $users = User::paginate(5);
+          $query = User::query();
 
-        return view('pages/users_list', compact('users'));
+        if ($search = $request->input('search')) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%");
+            });
+        }
+
+        if ($genre = $request->input('genre')) {
+            $query->where('music_genre', $genre);
+        }
+
+        if ($location = $request->input('location')) {
+            $query->where('location', 'like', "%$location%");
+        }
+
+        $users = $query->paginate(10);
+
+        return view('pages.users_list', compact('users'));
     }
     
     public function authSession(Request $request)

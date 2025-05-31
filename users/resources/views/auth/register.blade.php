@@ -58,13 +58,13 @@
 
     
     <div class="relative z-0 w-full mb-5 group">
-        <input type="text" value = "{{old('city')}}" name="code" id="code" class="block py-2.5 px-0 w-full text-sm 
-            @error('code') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
-            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
-        <label for="code" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Zip Code')}}</label>
-        @error('code')
+                @error('zip_code')
             <span class="text-red-500 text-sm mt-1">{{ $message }}</span>
         @enderror
+        <input type="text" value = "{{old('zip_code')}}" name="zip_code" id="zip_code" class="block py-2.5 px-0 w-full text-sm 
+            @error('zip-code') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
+            bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
+        <label for="zip_code" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Zip Code')}}</label>
     </div>
 
   </div>
@@ -116,7 +116,7 @@
   
   <div class="grid md:grid-cols-2 md:gap-6">
       <div class="relative z-0 w-full mb-5 group">
-          <input type="tel" value = "{{old('phone')}}" pattern="[0-9]{3}[0-9]{3}[0-9]{3}" name="phone" id="phone" class="block py-2.5 px-0 w-full text-sm 
+          <input type="text" value = "{{old('phone')}}" pattern="[0-9]{3}[0-9]{3}[0-9]{3}" maxlength="9" name="phone" id="phone" class="block py-2.5 px-0 w-full text-sm 
               @error('phone') dark:border-red-500 text-red-900 @else border-gray-300 text-gray-900 @enderror
               bg-transparent border-b-2 appearance-none dark:text-gray-500 dark:border-gray-600 dark:focus:border-gray-500 focus:outline-none focus:ring-0 focus:border-gray-600 peer" placeholder=" "  />
           <label for="phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-800 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-gray-600 peer-focus:dark:text-gray-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{__('Phone number (123456789)')}}</label>

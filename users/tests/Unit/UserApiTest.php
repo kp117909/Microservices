@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserApiTest extends TestCase
 {
     // Czyści baze przed testami
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     // Test pobierania wszystkich użytkowników
     public function test_get_all_users()
@@ -50,9 +50,12 @@ class UserApiTest extends TestCase
             'first_name' => 'First',
             'last_name' => 'Last',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'test',
+            'password_confirmation' => 'test',
             'phone' => '123456789',
+            'country' => 'Poland',
+            'city' => 'Warszawa',
+            'zip_code' => '39-164',
             'music_genre' => 'Rock',
         ];
 

@@ -39,9 +39,9 @@ RUN npm install vite laravel-vite-plugin
 # Ustawienie właściciela plików
 RUN chown -R www-data:www-data /var/www
 
-# Zapewnienie odpowiednich uprawnień do zapisu w katalogach Laravel
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
-RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+# # Zapewnienie odpowiednich uprawnień do zapisu w katalogach Laravel
+# RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 # Expose portów (80 - Apache, 5174 - Vite)
 EXPOSE 80 5174

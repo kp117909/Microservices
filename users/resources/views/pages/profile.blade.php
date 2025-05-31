@@ -9,7 +9,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
         <div class="w-full px-6 pb-8 sm:max-w-xl sm:rounded-lg">
 
-            <form method="POST" action="{{ url('/api/users/' . auth()->user()->id) }}">
+            <form method="POST" action="{{ route('users_form.update', auth()->user()->id) }}">
                 @csrf
                 @method('PATCH')
                 <div class="mx-auto max-w-2xl text-center">
@@ -34,7 +34,7 @@
                             <div class="w-full">
                                 <label for="name" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Name')}}</label>
                                 <input type="text" id="name" name="name" value="{{ auth()->user()->name }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('name') border-red-500 @enderror" />
-                                @error('email')
+                                @error('name')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -78,7 +78,7 @@
                             
                             <div class="w-full">
                                 <label for="phone" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Your Phone')}}</label>
-                                <input type="phone" id="phone" name="phone" value="{{ auth()->user()->phone }}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
+                                <input type="text" id="phone" name="phone"  maxlength="9" value="{{ auth()->user()->phone }}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
                                 @error('phone')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                                 @enderror
@@ -91,25 +91,25 @@
 
                             
                             <div class="w-full">
-                                <label for="phone" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Country')}}</label>
-                                <input type="phone" id="phone" name="phone" value=" Poland "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
-                                @error('phone')
+                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Country')}}</label>
+                                <input type="country" id="country" name="country" value="{{auth()->user()->country}} "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('country') border-red-500 @enderror" />
+                                @error('country')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
                                <div class="w-full">
-                                <label for="phone" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('City')}}</label>
-                                <input type="phone" id="phone" name="phone" value=" Poland "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
-                                @error('phone')
+                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('City')}}</label>
+                                <input type="city" id="city" name="city" value="{{auth()->user()->city}} "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('city') border-red-500 @enderror" />
+                                @error('city')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
                                <div class="w-full">
-                                <label for="phone" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Zip Code')}}</label>
-                                <input type="phone" id="phone" name="phone" value=" Poland "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('phone') border-red-500 @enderror" />
-                                @error('phone')
+                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Zip Code')}}</label>
+                                <input type="zip_code" id="zip_code" name="zip_code" value="{{auth()->user()->zip_code}}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('zip_code') border-red-500 @enderror" />
+                                @error('zip-code')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
@@ -127,7 +127,7 @@
 
             <hr class="my-6 border-gray-300 dark:border-gray-600">
 
-            <div class="flex flex-col items-center w-full mb-6">
+            {{-- <div class="flex flex-col items-center w-full mb-6">
                 <div class="mx-auto max-w-2xl text-center">
                     <h2 class="text-xl md:text-xl font-extrabold text-gray-900 dark:text-white mb-6">
                         {{ __('Change Your Password') }}
@@ -163,7 +163,7 @@
                             {{ __('Change Password') }}
                         </button>
                     </div>
-            </div>
+            </div> --}}
 
         </div>
         

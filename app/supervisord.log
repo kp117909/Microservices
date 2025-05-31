@@ -346,3 +346,21 @@
 2025-05-29 11:10:04,327 INFO spawned: 'vite' with pid 9
 2025-05-29 11:10:05,751 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
 2025-05-29 11:10:09,863 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
+2025-05-31 06:10:02,572 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-31 06:10:02,575 INFO supervisord started with pid 1
+2025-05-31 06:10:03,577 INFO spawned: 'apache2' with pid 7
+2025-05-31 06:10:03,590 INFO spawned: 'vite' with pid 8
+2025-05-31 06:10:04,939 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-31 06:10:09,119 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
+2025-05-31 06:17:16,317 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-31 06:17:16,319 INFO supervisord started with pid 1
+2025-05-31 06:17:17,321 INFO spawned: 'apache2' with pid 7
+2025-05-31 06:17:17,323 INFO spawned: 'vite' with pid 8
+2025-05-31 06:17:18,392 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-31 06:17:22,398 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
+2025-05-31 06:34:31,537 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-05-31 06:34:31,538 INFO supervisord started with pid 1
+2025-05-31 06:34:32,542 INFO spawned: 'apache2' with pid 7
+2025-05-31 06:34:32,543 INFO spawned: 'vite' with pid 8
+2025-05-31 06:34:34,489 INFO success: apache2 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-05-31 06:34:38,495 INFO success: vite entered RUNNING state, process has stayed up for > than 5 seconds (startsecs)
