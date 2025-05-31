@@ -16,7 +16,6 @@ class AuthController extends Controller
     public function authUserFromSession(Request $request)
     {
         $session_id = $request->query('session_id'); 
-        $events = Event::paginate(2); 
         $auth = false;
 
         if ($session_id) {
@@ -34,6 +33,40 @@ class AuthController extends Controller
                 }
             }
         }
+
+        $query = Event::query();
+
+        if ($request->filled('start_time')) {
+            $query->whereDate('start_time', '>=', $request->start_time);
+        }
+
+        
+        if ($request->filled('end_time')) {
+            $query->whereDate('end_time', '<=', $request->end_time);
+        }
+
+        
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        
+        if ($request->filled('genre')) {
+            $query->where('music_genre', $request->genre);
+        }
+
+        
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
+            });
+        }
+
+        $events = $query->latest()->paginate(2)->withQueryString();
+
+
 
         return view('events_list', compact('auth', 'events'));
     }

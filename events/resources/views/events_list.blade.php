@@ -7,60 +7,65 @@
   <div class="flex-grow container mx-auto p-6 mt-4">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-      <!-- Sidebar Search Form -->
+      
       <aside class="lg:col-span-1 bg-white dark:bg-gray-800 mt-20 p-4 rounded-lg shadow-md h-fit">
 
-        <div class="text-center text-white font-semibold  text-lg mb-4">Filters</div>
+        <div class="text-center text-white font-semibold  text-lg mb-4">{{__('Filters')}}</div>
         <form method="GET" action="{{ url()->current() }}" class="space-y-4">
+
           <div>
-            <label for="start_date" class="block mb-1 text-sm font-medium text-white">Start Date</label>
-            <input type="date" name="start_date" id="start_date" value="{{ request('start_date') }}"
+            <label for="start_time" class="block mb-1 text-sm font-medium text-white">{{__('Start Date')}}</label>
+            <input type="date" name="start_time" id="start_time" value="{{ request('start_time') }}"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
           </div>
 
+         
           <div>
-            <label for="end_date" class="block mb-1 text-sm font-medium text-white">End Date</label>
-            <input type="date" name="end_date" id="end_date" value="{{ request('end_date') }}"
+            <label for="end_time" class="block mb-1 text-sm font-medium text-white">{{__('End Date')}}</label>
+            <input type="date" name="end_time" id="end_time" value="{{ request('end_time') }}"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
           </div>
 
+          
           <div>
-            <label for="type" class="block mb-1 text-sm font-medium text-white">Type</label>
+            <label for="type" class="block mb-1 text-sm font-medium text-white">{{__('Type')}}</label>
             <select name="type" id="type"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
               <option value="">All</option>
-              <option value="Concert" {{ request('type') == 'Concert' ? 'selected' : '' }}>Concert</option>
-              <option value="Festival" {{ request('type') == 'Festival' ? 'selected' : '' }}>Festival</option>
-              <option value="Meetup" {{ request('type') == 'Meetup' ? 'selected' : '' }}>Meetup</option>
-              <option value="Workshop" {{ request('type') == 'Workshop' ? 'selected' : '' }}>Workshop</option>
+              @foreach (['Concert', 'Festival', 'Meetup', 'Workshop'] as $type)
+                <option value="{{ $type }}" @selected(request('type') == $type)>{{ $type }}</option>
+              @endforeach
             </select>
           </div>
 
+          
           <div>
-            <label for="genre" class="block mb-1 text-sm font-medium text-white">Music Genre</label>
+            <label for="genre" class="block mb-1 text-sm font-medium text-white">{{__('Music Genre')}}</label>
             <select name="genre" id="genre"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
               <option value="">All</option>
-              <option value="Rock" @selected(request('genre') == 'Rock')>Rock</option>
-              <option value="Pop" @selected(request('genre') == 'Pop')>Pop</option>
-              <option value="Jazz" @selected(request('genre') == 'Jazz')>Jazz</option>
-              <option value="Hip-Hop" @selected(request('genre') == 'Hip-Hop')>Hip-Hop</option>
+              @foreach (['Rock', 'Pop', 'Jazz', 'Hip-Hop'] as $genre)
+                <option value="{{ $genre }}" @selected(request('genre') == $genre)>{{ $genre }}</option>
+              @endforeach
             </select>
           </div>
 
+          
           <div>
-            <label for="search" class="block text-sm font-medium text-white">Search</label>
-            <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="Name or description"
+            <label for="search" class="block text-sm font-medium text-white">{{__('Search')}}</label>
+            <input type="text" name="search" id="search" value="{{ request('search') }}" placeholder="{{__('Name or description')}}"
               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
           </div>
 
+          
           <div class="flex justify-center gap-4">
             <button type="submit"
               class="flex-1 inline-flex items-center justify-center text-white bg-purple-900 hover:bg-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-              Search
+              {{__('Search')}}
             </button>
             <a href="{{ url()->current() }}"
-              class="inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2.5">
+              class="inline-flex items-center justify-center text-white bg-red-600 hover:bg-red-700 font-medium rounded-lg text-sm px-4 py-2.5"
+              title="Clear filters">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -69,9 +74,10 @@
           </div>
         </form>
 
-          <hr class="my-6 border-gray-300 dark:border-gray-600">
 
-  <div class="text-center text-white font-semibold  text-lg mb-4">Create New Event</div>
+        <hr class="my-6 border-gray-300 dark:border-gray-600">
+
+  <div class="text-center text-white font-semibold  text-lg mb-4">{{__('Create New Event')}}</div>
 
   <form method="POST" action="" enctype="multipart/form-data" class="space-y-4">
     @csrf
@@ -137,7 +143,7 @@
   </form>
       </aside>
 
-      <!-- Event List Section -->
+      
       <section class="lg:col-span-3">
         <div class="mx-auto max-w-7xl py-4 sm:px-6 sm:py-6 lg:px-8">
           <div class="px-2 lg:px-4 xl:px-6">
@@ -149,7 +155,7 @@
             <div class="flex flex-col gap-8">
               @foreach($events as $event)
               <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden mb-6">
-                <!-- Obrazek z efektem zanikania -->
+                
                 <div class="relative h-24 w-full rounded-t-lg overflow-hidden">
                   <div class="absolute inset-0 bg-cover bg-center"
                     style="
