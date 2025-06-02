@@ -5,19 +5,52 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Http\Controllers\BookingsApiControllercd;
+use App\Http\Controllers\BookingsApiController;
+use Illuminate\Support\Facades\Http; // Laravel HTTP client
 
 class BookingController extends Controller
 {
-    public function index()
+
+   public function index()
     {
         try {
             $bookings = Booking::all();
-            return response()->json($bookings, 200);
+            $result = [];
+
+            $grouped = $bookings->groupBy('event_id');
+
+            $eventsData = [];
+            $attendeesData = [];
+
+            foreach ($grouped as $eventId => $eventBookings) {
+                $eventsData[$eventId] = Http::get("http://events/api/events/{$eventId}")->json();
+
+                $userIds = $eventBookings->pluck('user_id')->unique()->toArray();
+
+                $attendeesData[$eventId] = Http::get("http://users/api/users", [
+                    'ids' => $userIds
+                ])->json();
+            }
+
+            foreach ($bookings as $booking) {
+                $eventId = $booking->event_id;
+
+                $result[] = [
+                    'booking_id' => $booking->id,
+                    'event' => $eventsData[$eventId] ?? null,
+                    'attendees' => $attendeesData[$eventId] ?? [],
+                ];
+            }
+
+            return response()->json($result, 200);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error fetching bookings', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error fetching bookings',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
 
     public function store(Request $request)
     {
@@ -59,11 +92,32 @@ class BookingController extends Controller
     {
         try {
             $booking = Booking::findOrFail($id);
-            return response()->json($booking, 200);
+
+            $event = Http::get("http://events/api/events/{$booking->event_id}")->json();
+
+            $attendeeIds = Booking::where('event_id', $booking->event_id)
+                ->pluck('user_id')
+                ->unique()
+                ->toArray();
+
+            $attendees = Http::get("http://users/api/users", [
+                'ids' => $attendeeIds
+            ])->json();
+
+            return response()->json([
+                'booking_id' => $booking->id,
+                'event' => $event,
+                'attendees' => $attendees
+            ], 200);
+
         } catch (ModelNotFoundException) {
             return response()->json(['message' => 'Booking not found'], 404);
+
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error fetching booking', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error fetching booking',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

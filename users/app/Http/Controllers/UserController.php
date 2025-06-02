@@ -11,9 +11,14 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         try {
+            
+            if ($request->has('ids')) {
+                return User::whereIn('id', $request->ids)->get();
+            }
+            
             $users = User::all();
             return response()->json($users, 200);
         } catch (\Exception $e) {

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BookingsApiTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase;
 
     public function test_get_all_bookings()
     {
@@ -54,7 +54,6 @@ class BookingsApiTest extends TestCase
 
         $response2 = $this->postJson('/api/bookings', $bookingData);
         $response2->assertStatus(400);
-        $response2->dump();
         $response2->assertJsonFragment(['error' => 'This user is already registered for this event']);
     } 
 
