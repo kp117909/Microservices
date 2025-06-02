@@ -6,15 +6,21 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\BookingsApiController;
-use Illuminate\Support\Facades\Http; // Laravel HTTP client
+use Illuminate\Support\Facades\Http;
 
 class BookingController extends Controller
 {
 
-   public function index()
+    public function index()
     {
         try {
-            $bookings = Booking::all();
+            $query = Booking::query();
+
+            if (request()->has('event_id')) {
+                $query->where('event_id', request('event_id'));
+            }
+
+            $bookings = $query->get();
             $result = [];
 
             $grouped = $bookings->groupBy('event_id');
@@ -50,6 +56,7 @@ class BookingController extends Controller
             ], 500);
         }
     }
+
 
 
     public function store(Request $request)

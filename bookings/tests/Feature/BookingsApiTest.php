@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class BookingsApiTest extends TestCase
 {
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     public function test_get_all_bookings()
     {
@@ -25,9 +25,8 @@ class BookingsApiTest extends TestCase
         $booking = Booking::factory()->create();
 
         $response = $this->getJson('/api/bookings/' . $booking->id);
-
         $response->assertStatus(200)
-                 ->assertJsonFragment(['id' => $booking->id]);
+                 ->assertJsonFragment(['booking_id' => $booking->id]);
     }
 
     public function test_show_booking_not_found()

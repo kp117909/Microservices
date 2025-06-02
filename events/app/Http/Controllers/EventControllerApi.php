@@ -5,18 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Http;
 
 class EventControllerApi extends Controller
 {
+
     public function index()
     {
         try {
             $events = Event::all();
-            return response()->json($events);
+
+            $bookingsResponse = Http::get("http://bookings/api/bookings");
+            $bookings = $bookingsResponse->json();
+
+            $attendeesPerEvent = [];
+
+            foreach ($bookings as $booking) {
+                $eventId = $booking['event']['id'];
+
+                foreach ($booking['attendees'] as $user) {
+                    $attendeesPerEvent[$eventId][$user['id']] = $user; 
+                }
+            }
+
+            $result = [];
+
+            foreach ($events as $event) {
+                $eventId = $event['id'];
+                $attendees = isset($attendeesPerEvent[$eventId])
+                    ? array_values($attendeesPerEvent[$eventId])
+                    : [];
+
+                $result[] = [
+                    'event' => $event,
+                    'attendees' => $attendees
+                ];
+            }
+
+            return response()->json($result, 200);
+
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Error fetching events', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error fetching events with attendees',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
+
 
     public function store(Request $request)
     {
