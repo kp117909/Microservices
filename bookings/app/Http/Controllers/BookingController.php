@@ -26,16 +26,9 @@ class BookingController extends Controller
             $grouped = $bookings->groupBy('event_id');
 
             $eventsData = [];
-            $attendeesData = [];
 
             foreach ($grouped as $eventId => $eventBookings) {
                 $eventsData[$eventId] = Http::get("http://events/api/events/{$eventId}")->json();
-
-                $userIds = $eventBookings->pluck('user_id')->unique()->toArray();
-
-                $attendeesData[$eventId] = Http::get("http://users/api/users", [
-                    'ids' => $userIds
-                ])->json();
             }
 
             foreach ($bookings as $booking) {
@@ -43,8 +36,7 @@ class BookingController extends Controller
 
                 $result[] = [
                     'booking_id' => $booking->id,
-                    'event' => $eventsData[$eventId] ?? null,
-                    'attendees' => $attendeesData[$eventId] ?? [],
+                    'event_data' => $eventsData[$eventId] ?? null,
                 ];
             }
 
@@ -102,19 +94,9 @@ class BookingController extends Controller
 
             $event = Http::get("http://events/api/events/{$booking->event_id}")->json();
 
-            $attendeeIds = Booking::where('event_id', $booking->event_id)
-                ->pluck('user_id')
-                ->unique()
-                ->toArray();
-
-            $attendees = Http::get("http://users/api/users", [
-                'ids' => $attendeeIds
-            ])->json();
-
             return response()->json([
                 'booking_id' => $booking->id,
-                'event' => $event,
-                'attendees' => $attendees
+                'event_data' => $event,
             ], 200);
 
         } catch (ModelNotFoundException) {
@@ -141,4 +123,27 @@ class BookingController extends Controller
             return response()->json(['message' => 'Failed to delete booking', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function indexByEvent(Request $request)
+    {
+        $eventId = $request->query('event_id');
+
+        $bookings = Booking::where('event_id', $eventId)->get();
+
+        return response()->json($bookings);
+    }
+
+     public function indexClean()
+        {
+            try {
+                $result = Booking::all();
+                return response()->json($result, 200);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'message' => 'Error fetching bookings',
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
+
 }

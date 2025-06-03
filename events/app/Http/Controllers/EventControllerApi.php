@@ -21,9 +21,9 @@ class EventControllerApi extends Controller
             $attendeesPerEvent = [];
 
             foreach ($bookings as $booking) {
-                $eventId = $booking['event']['id'];
+                $eventId = $booking['event_data']['event']['id'];
 
-                foreach ($booking['attendees'] as $user) {
+                foreach ($booking['event_data']['attendees'] as $user) {
                     $attendeesPerEvent[$eventId][$user['id']] = $user; 
                 }
             }
@@ -53,6 +53,7 @@ class EventControllerApi extends Controller
     }
 
 
+
     public function store(Request $request)
     {
         try {
@@ -80,7 +81,35 @@ class EventControllerApi extends Controller
     {
         try {
             $event = Event::findOrFail($id);
-            return response()->json($event);
+
+            $bookingsResponse = Http::timeout(5)->get("http://bookings/api/bookings/byEvent", [
+                'event_id' => $event->id
+            ]);
+
+            $bookings = $bookingsResponse->json();
+
+            $attendeeIds = [];
+
+            foreach ($bookings as $booking) {
+                if ($booking['event_id'] == $event->id) {
+                    $attendeeIds[] = $booking['user_id'];
+                }
+            }
+
+            $attendees = [];
+
+            if (!empty($attendeeIds)) {
+               $attendees = Http::get("http://users/api/users", [
+                'ids' => $attendeeIds
+                ])->json();
+            }
+
+            return response()->json([
+                'event' => $event,
+                'attendees' => $attendees
+            ], 200);
+
+            return response()->json($result, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Event not found'], 404);
         } catch (\Exception $e) {
