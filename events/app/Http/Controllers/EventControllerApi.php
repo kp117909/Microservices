@@ -6,6 +6,8 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 
 class EventControllerApi extends Controller
 {
@@ -13,46 +15,57 @@ class EventControllerApi extends Controller
     public function index()
     {
         try {
-            $events = Event::all();
-
-            $bookingsResponse = Http::get("http://bookings/api/bookings");
-            $bookings = $bookingsResponse->json();
+            $events = Event::all()->keyBy('id');
+            $bookings = $this->fetchBookings();
 
             $attendeesPerEvent = [];
 
             foreach ($bookings as $booking) {
-                $eventId = $booking['event_data']['event']['id'];
+                $eventId = data_get($booking, 'event_data.event.id');
 
-                foreach ($booking['event_data']['attendees'] as $user) {
-                    $attendeesPerEvent[$eventId][$user['id']] = $user; 
+                foreach (data_get($booking, 'event_data.attendees', []) as $user) {
+                    $attendeesPerEvent[$eventId][$user['id']] = $user;
                 }
             }
 
-            $result = [];
-
-            foreach ($events as $event) {
-                $eventId = $event['id'];
-                $attendees = isset($attendeesPerEvent[$eventId])
-                    ? array_values($attendeesPerEvent[$eventId])
-                    : [];
-
-                $result[] = [
+            $result = $events->map(function ($event, $eventId) use ($attendeesPerEvent) {
+                return [
                     'event' => $event,
-                    'attendees' => $attendees
+                    'attendees' => array_values($attendeesPerEvent[$eventId] ?? []),
                 ];
-            }
+            })->values();
 
             return response()->json($result, 200);
 
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error('Error fetching events with attendees', ['exception' => $e]);
+
             return response()->json([
                 'message' => 'Error fetching events with attendees',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ], 500);
         }
     }
 
+    private function fetchBookings(): array
+    {
+        try {
+            $response = Http::timeout(5)->get("http://bookings/api/bookings");
 
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::warning('Error response with bookings API', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('HTPP Error', ['exception' => $e]);
+        }
+
+        return [];
+    }
 
     public function store(Request $request)
     {
@@ -82,40 +95,83 @@ class EventControllerApi extends Controller
         try {
             $event = Event::findOrFail($id);
 
-            $bookingsResponse = Http::timeout(5)->get("http://bookings/api/bookings/byEvent", [
-                'event_id' => $event->id
-            ]);
+            $bookings = $this->fetchBookingsForEvent($event->id);
+            $attendeeIds = collect($bookings)
+                ->pluck('user_id')
+                ->unique()
+                ->filter()
+                ->values();
 
-            $bookings = $bookingsResponse->json();
-
-            $attendeeIds = [];
-
-            foreach ($bookings as $booking) {
-                if ($booking['event_id'] == $event->id) {
-                    $attendeeIds[] = $booking['user_id'];
-                }
-            }
-
-            $attendees = [];
-
-            if (!empty($attendeeIds)) {
-               $attendees = Http::get("http://users/api/users", [
-                'ids' => $attendeeIds
-                ])->json();
-            }
+            $attendees = $attendeeIds->isNotEmpty()
+                ? $this->fetchUsersByIds($attendeeIds)
+                : [];
 
             return response()->json([
                 'event' => $event,
-                'attendees' => $attendees
+                'attendees' => $attendees,
             ], 200);
 
-            return response()->json($result, 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Event not found'], 404);
-        } catch (\Exception $e) {
-            return response()->json(['message' => 'Error fetching event', 'error' => $e->getMessage()], 500);
+
+        } catch (\Throwable $e) {
+            Log::error("Error while get event {$id}", ['exception' => $e]);
+
+            return response()->json([
+                'message' => 'Error fetching event',
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
+
+    private function fetchBookingsForEvent(int $eventId): array
+    {
+        try {
+            $response = Http::timeout(5)->get("http://bookings/api/bookings/byEvent", [
+                'event_id' => $eventId
+            ]);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::warning("Failed response from bookings for event ID {$eventId}", [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        } catch (\Throwable $e) {
+            Log::error("HTTP error while fetching bookings for event ID {$eventId}", [
+                'exception' => $e
+            ]);
+        }
+
+        return [];
+    }
+
+    private function fetchUsersByIds(Collection $userIds): array
+    {
+        try {
+            $response = Http::timeout(5)->get("http://users/api/users", [
+                'ids' => $userIds->toArray()
+            ]);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::warning("Error response with users API", [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        } catch (\Throwable $e) {
+            Log::error("HTTP error while fetching users", [
+                'exception' => $e
+            ]);
+        }
+
+        return [];
+    }
+
 
     public function update(Request $request, $id)
     {

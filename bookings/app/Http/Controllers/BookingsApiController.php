@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BookingsApiController extends Controller
 {
@@ -37,4 +38,42 @@ class BookingsApiController extends Controller
         }
         return false;
 }
+
+    public static function fetchEventData($eventId)
+    {
+        try {
+            $response = Http::timeout(5)->get("http://events/api/events/{$eventId}");
+            if ($response->successful()) {
+                return $response->json();
+            }
+            Log::warning("Error fetching event data {$eventId}", [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        } catch (\Throwable $e) {
+            Log::error("HTTP error fetching event ID {$eventId}", ['exception' => $e]);
+        }
+        return null;
+    }
+
+    public static function fetchUserData($userId)
+    {
+        try {
+            $response = Http::timeout(5)->get("http://users/api/users/{$userId}");
+            if ($response->successful()) {
+                return $response->json();
+            }
+            Log::warning("Error fetching user data {$userId}", [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+        } catch (\Throwable $e) {
+            Log::error("HTTP error fetching user ID {$userId}", ['exception' => $e]);
+        }
+        return null;
+    }
+
+
 }
+
+

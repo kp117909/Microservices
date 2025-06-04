@@ -6,42 +6,38 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Controllers\BookingsApiController;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
 
-    public function index()
+   public function index()
     {
         try {
-            $query = Booking::query();
+            $bookings = Booking::when(request('event_id'), function ($query, $eventId) {
+                return $query->where('event_id', $eventId);
+            })->get();
 
-            if (request()->has('event_id')) {
-                $query->where('event_id', request('event_id'));
-            }
-
-            $bookings = $query->get();
             $result = [];
 
-            $grouped = $bookings->groupBy('event_id');
-
-            $eventsData = [];
-
-            foreach ($grouped as $eventId => $eventBookings) {
-                $eventsData[$eventId] = Http::get("http://events/api/events/{$eventId}")->json();
-            }
-
             foreach ($bookings as $booking) {
-                $eventId = $booking->event_id;
+            
+                $eventData = BookingsApiController::fetchEventData($booking->event_id);
+          
+                $userData = BookingsApiController::fetchUserData($booking->user_id);
 
                 $result[] = [
                     'booking_id' => $booking->id,
-                    'event_data' => $eventsData[$eventId] ?? null,
+                    'event_data' => $eventData,
+                    'user_data' => $userData,
                 ];
             }
 
             return response()->json($result, 200);
-        } catch (\Exception $e) {
+
+        } catch (\Throwable $e) {
+            Log::error('Booking index error', ['exception' => $e]);
+
             return response()->json([
                 'message' => 'Error fetching bookings',
                 'error' => $e->getMessage()
@@ -59,15 +55,23 @@ class BookingController extends Controller
                 'event_id' => 'required|integer',
             ]);
 
-            if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
-                return response()->json(['error' => 'User does not exist'], 400);
+            try {
+                if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
+                    return response()->json(['error' => 'User does not exist'], 400);
+                }
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Failed to verify user existence', 'details' => $e->getMessage()], 500);
             }
 
-            if(!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
-                return response()->json(['error' => 'Event does not exist'], 400);
+            try {
+                if (!BookingsApiController::externalApiCheckEventExists($validated['event_id'])) {
+                    return response()->json(['error' => 'Event does not exist'], 400);
+                }
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Failed to verify event existence', 'details' => $e->getMessage()], 500);
             }
 
-            $existingBooking = Booking::where('user_id', $validated['user_id'])
+            $existingBooking = Booking::where('user_id',    $validated['user_id'])
                 ->where('event_id', $validated['event_id'])
                 ->first();
 
@@ -75,28 +79,30 @@ class BookingController extends Controller
                 return response()->json(['error' => 'This user is already registered for this event'], 400);
             }
 
+            $booking = Booking::create($validated);
+
+            return response()->json($booking, 201);
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
-        }
-
-        try {
-            $booking = Booking::create($validated);
-            return response()->json($booking, 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to create booking', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     public function show($id)
     {
         try {
             $booking = Booking::findOrFail($id);
 
-            $event = Http::get("http://events/api/events/{$booking->event_id}")->json();
+            $event = BookingsApiController::fetchEventData($booking->event_id);
+            $user = BookingsApiController::fetchUserData($booking->user_id);
 
             return response()->json([
                 'booking_id' => $booking->id,
                 'event_data' => $event,
+                'user_data' => $user,
             ], 200);
 
         } catch (ModelNotFoundException) {
