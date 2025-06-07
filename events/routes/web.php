@@ -23,16 +23,14 @@ Route::get('logout', function () {
     return redirect(env('USERS_SERVICE_URL') . '/ext/logout');
 })->name('ext.logout');
 
-
+e
 Route::get('/dashboard', [AuthController::class, 'redirectToUsers'])->name('page.dashboard');
 
 Route::get('/profile', function () {
     return redirect(env('USERS_SERVICE_URL') . '/profile');
 })->name('page.profile');
 
-Route::get('/users_list', function () {
-    return redirect(env('USERS_SERVICE_URL') . '/users_list');
-})->name('page.users_list');
+Route::get('/users_list', [AuthController::class, 'redirectToUsersList'])->name('page.users_list');
 
 Route::post('/events', [EventController::class, 'store'])->name('events.store');
 

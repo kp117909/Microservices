@@ -127,11 +127,15 @@ class AuthController extends Controller
             $query->where('music_genre', $genre);
         }
 
-        if ($location = $request->input('location')) {
-            $query->where('location', 'like', "%$location%");
+        if ($search = $request->input('location')) {
+            $query->where(function($q) use ($search) {
+                $q->where('country', 'like', "%$search%")
+                ->orWhere('city', 'like', "%$search%");
+            });
         }
 
-        $users = $query->paginate(10);
+
+        $users = $query->paginate(5);
 
         return view('pages.users_list', compact('users'));
     }

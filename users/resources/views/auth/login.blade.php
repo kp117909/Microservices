@@ -37,7 +37,7 @@
   
       <button type="submit" class="text-white dark:bg-gray-600 hover:dark:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-gray-800">{{__('Login')}}</button>
   
-      <div class="hidden sm:mb-8 sm:flex sm:justify-center mt-5">
+      <div class="sm:mb-8 sm:flex sm:justify-center mt-5">
           <div class="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
               {{__('Don\'t have an account?')}}<a href="{{ route('page.register') }}" class="font-semibold text-blue-200"><span aria-hidden="true">&rarr;</span>{{__('Register here')}}</a>
           </div>

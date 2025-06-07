@@ -1,10 +1,10 @@
 @extends('layout')
 
-<div class="bg-white">
+<div>
   
   @include('components.header')
 
-  <div class="flex-grow container mx-auto p-6 mt-4">
+  <div class="flex-grow container mx-auto p-6 mt-10">
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
       

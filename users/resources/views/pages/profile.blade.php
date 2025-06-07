@@ -16,7 +16,7 @@
                     <h2 class="text-xl md:text-xl font-extrabold text-gray-900 dark:text-white mb-6">{{__('Informations')}}</h2>
                 </div>
                 <div class="grid max-w-2xl mx-aut">
-                    <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
+                    {{-- <div class="flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0">
 
                         <img class="object-cover w-40 h-40 p-1 rounded-full ring-2 ring-blue-200 dark:ring-blue-200"
                             src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60"
@@ -26,8 +26,8 @@
                             <button type="submit" class="text-white dark:bg-gray-600 hover:dark:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-gray-800">{{__('Change Picture')}}</button>
                             <button type="submit" class="text-white dark:bg-gray-600 hover:dark:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-gray-800">{{__('Delete Picture')}}</button>
                         </div>
-                    </div>
-                {{-- DO USUNIECI    A --}}
+                    </div> --}}
+       
                     <div class="items-center mt-8 sm:mt-4 text-[#202142] ">
                         <div class="flex flex-col items-center w-full mb-2 space-x-0 space-y-2 sm:flex-row sm:space-x-4 sm:space-y-0 sm:mb-6">
                                 

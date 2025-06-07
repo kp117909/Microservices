@@ -11,5 +11,4 @@
     <body class="flex flex-col min-h-screen">
         @yield('content')
     </body>
-
 </html>

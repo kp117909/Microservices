@@ -85,5 +85,18 @@ class AuthController extends Controller
         }
     }
 
+        public function redirectToUsersList()
+    {
+        $session_id = Session::getId();
+    
+        $user_id = Redis::get('session:' . $session_id);
+    
+        if ($user_id) {
+            return redirect(env('USERS_SERVICE_URL') . '/auth/session?session_id=' . $session_id);
+        } else {
+            return redirect(env('USERS_SERVICE_URL') . '/auth/session');
+        }
+    }
+
 
 }
