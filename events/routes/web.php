@@ -23,7 +23,6 @@ Route::get('logout', function () {
     return redirect(env('USERS_SERVICE_URL') . '/ext/logout');
 })->name('ext.logout');
 
-e
 Route::get('/dashboard', [AuthController::class, 'redirectToUsers'])->name('page.dashboard');
 
 Route::get('/profile', function () {

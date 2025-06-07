@@ -12,25 +12,20 @@ class ExternalUser extends Authenticatable
 
     public $timestamps = false;
 
-    // Laravel domyślnie próbuje zapisać użytkownika w bazie — jeśli tego nie chcesz:
-    public function save(array $options = [])
+    public function __construct(array $attributes = [])
     {
-        return true; // nadpisujemy save, żeby nic nie zapisywało
+        foreach ($attributes as $key => $value) {
+            if (in_array($key, $this->fillable)) {
+                $this->$key = $value;
+            }
+        }
     }
+    
+    public function save(array $options = []) { return true; }
 
-    // wymagane przez Auth::login()
-    public function getAuthIdentifierName()
-    {
-        return 'id';
-    }
+    public function getAuthIdentifierName() { return 'id'; }
 
-    public function getAuthIdentifier()
-    {
-        return $this->id;
-    }
+    public function getAuthIdentifier() { return $this->id; }
 
-    public function getAuthPassword()
-    {
-        return null; // bo nie logujesz się przez hasło
-    }
+    public function getAuthPassword() { return null; }
 }

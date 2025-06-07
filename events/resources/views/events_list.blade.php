@@ -149,7 +149,7 @@
           <div class="px-2 lg:px-4 xl:px-6">
 
             <div class="mx-auto max-w-2xl text-center mb-8">
-              <h2 class="text-xl md:text-xl font-extrabold text-gray-800 dark:text-white mb-6">{{ __('Events List') }}</h2>
+              <h2 class="text-xl md:text-xl font-extrabold text-gray-800 dark:text-white mb-6">{{ __('Check new events ') }}</h2>
             </div>
 
             <div class="flex flex-col gap-8">
