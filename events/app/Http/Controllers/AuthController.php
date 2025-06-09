@@ -18,8 +18,7 @@ class AuthController extends Controller
         $sessionId = $request->attributes->get('session_id');
         $auth = $user !== null;
 
-        $events = $eventService->getEventsWithAttendees();
-      
+        $events = $eventService->getEventsWithAttendees(fullData: false);
         $filtered = $events->filter(function ($item) use ($request) {
             $event = $item['event'];
 

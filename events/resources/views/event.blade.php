@@ -13,29 +13,28 @@
                 <form action="{{ route('event.update', ['id' => $event->id, 'session_id' => request('session_id')]) }}" method="POST">
                     @csrf
                     @method('PUT')
-                    <label for="name" class="block mb-1 font-semibold  text-white">Name</label>
+                    <label for="name" class="block mb-1 font-semibold  text-white">{{__('Name')}}</label>
                     <input type="text" name="name" id="name" value="{{ old('name', $event->name) }}" required
                         class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600 " />
-
-                    <label for="description" class="block mb-1 font-semibold  text-white ">Description</label>
+                    <label for="description" class="block mb-1 font-semibold  text-white ">{{__('Description')}}</label>
                     <textarea name="description" id="description" rows="4" required
                             class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">{{ old('description', $event->description) }}</textarea>
 
-                    <label for="location" class="block mb-1 font-semibold  text-white">Location</label>
+                    <label for="location" class="block mb-1 font-semibold  text-white">{{__('Location')}}</label>
                     <input type="text" name="location" id="location" value="{{ old('location', $event->location) }}" required
                         class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600" />
 
-                    <label for="start_time" class="block mb-1 font-semibold  text-white">Start Time</label>
+                    <label for="start_time" class="block mb-1 font-semibold  text-white">{{__('Start Time')}}</label>
                     <input type="datetime-local" name="start_time" id="start_time" required
                         value="{{ old('start_time', $event->start_time?->format('Y-m-d\TH:i')) }}"
                         class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600 " />
 
-                    <label for="end_time" class="block mb-1 font-semibold text-white ">End Time</label>
+                    <label for="end_time" class="block mb-1 font-semibold text-white ">{{__('End Time')}}</label>
                     <input type="datetime-local" name="end_time" id="end_time" required
                         value="{{ old('end_time', $event->end_time?->format('Y-m-d\TH:i')) }}"
                         class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600" />
 
-                    <label for="music_genre" class="block mb-1 font-semibold text-white">Music Genre</label>
+                    <label for="music_genre" class="block mb-1 font-semibold text-white">{{__('Music Genre')}}</label>
                     <select name="music_genre" id="music_genre" required class="w-full mb-3 p-2 border rounded  border-gray-300 focus:ring-pink-500 focus:border-pink-300 dark:bg-gray-800 dark:text-white dark:border-gray-600">
                         @php
                             $genres = ['Rock', 'Pop', 'Jazz', 'Hip-Hop'];
@@ -59,7 +58,7 @@
 
                     <button type="submit"
                             class="w-full bg-blue-600 text-white font-semibold py-2 rounded hover:bg-blue-700">
-                        Update Event
+                        {{__('Update Event')}}
                     </button>
                 </form>
 

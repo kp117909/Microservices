@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 class EventService
 {
-    public function getEventsWithAttendees(): \Illuminate\Support\Collection
+    public function getEventsWithAttendees(bool $fullData = true): \Illuminate\Support\Collection
     {
         $events = Event::all()->keyBy('id');
         $bookings = $this->fetchBookings();
@@ -19,7 +19,12 @@ class EventService
             $eventId = data_get($booking, 'event_data.event.id');
 
             foreach (data_get($booking, 'event_data.attendees', []) as $user) {
-                $attendeesPerEvent[$eventId][$user['id']] = $user;
+               $attendeesPerEvent[$eventId][$user['id']] = $fullData
+                ? $user
+                : [
+                    'id' => $user['id'],
+                    'name' => $user['name'] ?? 'Unknown',
+                ];
             }
         }
 
