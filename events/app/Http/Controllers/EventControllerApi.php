@@ -8,63 +8,21 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Collection;
+use App\Services\EventService;
 
 class EventControllerApi extends Controller
 {
 
-    public function index()
+   
+    public function index(EventService $eventService)
     {
         try {
-            $events = Event::all()->keyBy('id');
-            $bookings = $this->fetchBookings();
-
-            $attendeesPerEvent = [];
-
-            foreach ($bookings as $booking) {
-                $eventId = data_get($booking, 'event_data.event.id');
-
-                foreach (data_get($booking, 'event_data.attendees', []) as $user) {
-                    $attendeesPerEvent[$eventId][$user['id']] = $user;
-                }
-            }
-
-            $result = $events->map(function ($event, $eventId) use ($attendeesPerEvent) {
-                return [
-                    'event' => $event,
-                    'attendees' => array_values($attendeesPerEvent[$eventId] ?? []),
-                ];
-            })->values();
-
+            $result = $eventService->getEventsWithAttendees();
             return response()->json($result, 200);
-
         } catch (\Throwable $e) {
             Log::error('Error fetching events with attendees', ['exception' => $e]);
-
-            return response()->json([
-                'message' => 'Error fetching events with attendees',
-                'error' => $e->getMessage(),
-            ], 500);
+            return response()->json(['message' => 'Error fetching events', 'error' => $e->getMessage()], 500);
         }
-    }
-
-    private function fetchBookings(): array
-    {
-        try {
-            $response = Http::timeout(5)->get("http://bookings/api/bookings");
-
-            if ($response->successful()) {
-                return $response->json();
-            }
-
-            Log::warning('Error response with bookings API', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
-        } catch (\Throwable $e) {
-            Log::error('HTPP Error', ['exception' => $e]);
-        }
-
-        return [];
     }
 
     public function store(Request $request)

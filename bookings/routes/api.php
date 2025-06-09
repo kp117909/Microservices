@@ -11,4 +11,5 @@ Route::prefix('/bookings')->group(function () {
     Route::post('/', [BookingController::class, 'store']);      
     Route::get('/{id}', [BookingController::class, 'show']);  
     Route::delete('/{id}', [BookingController::class, 'destroy']); 
+    Route::delete('byEvent/{eventId}', [BookingController::class, 'destroyByEvent']); 
 });

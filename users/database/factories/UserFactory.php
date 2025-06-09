@@ -34,6 +34,7 @@ class UserFactory extends Factory
             'zip_code' => fake()->postcode(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
+            'is_admin' => false,
             'password' => Hash::make('password'), // hasło: "password"
             'remember_token' => Str::random(10),
         ];

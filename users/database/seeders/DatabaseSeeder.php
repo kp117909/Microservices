@@ -19,13 +19,26 @@ class DatabaseSeeder extends Seeder
 
         // Dodaje jednego konkretnego użytkownika
         User::factory()->create([
-            'name' => 'Test User',
-            'first_name' => 'Test',
-            'last_name' => 'User',
+            'name' => 'Test User Admin',
+            'first_name' => 'Test Admin',
+            'last_name' => 'User Admin',
             'phone' => '123456789',
             'music_genre' => 'Rock',
             'email' => 'test@example.com',
+            'is_admin' => true,
             'password' => Hash::make('test'), // np. hasło: "password"
         ]);
+
+         User::factory()->create([
+            'name' => 'Test User',
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'phone' => '123456788',
+            'music_genre' => 'Rock',
+            'email' => 'testuser@example.com',
+            'is_admin' => false,
+            'password' => Hash::make('test'), // np. hasło: "password"
+        ]);
+
         }
 }

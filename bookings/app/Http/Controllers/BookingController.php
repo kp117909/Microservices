@@ -55,6 +55,7 @@ class BookingController extends Controller
                 'event_id' => 'required|integer',
             ]);
 
+        
             try {
                 if (!BookingsApiController::externalApiCheckUserExists($validated['user_id'])) {
                     return response()->json(['error' => 'User does not exist'], 400);
@@ -127,6 +128,22 @@ class BookingController extends Controller
             return response()->json(['message' => 'Booking not found'], 404);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Failed to delete booking', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroyByEvent($eventId)
+    {
+        try {
+            $deletedCount = Booking::where('event_id', $eventId)->delete();
+
+            if ($deletedCount === 0) {
+                return response()->json(['message' => 'No bookings found for this event'], 404);
+            }
+
+            return response()->json(['message' => 'Bookings deleted', 'count' => $deletedCount], 200);
+
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to delete bookings', 'error' => $e->getMessage()], 500);
         }
     }
 

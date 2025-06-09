@@ -7,7 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class ExternalUser extends Authenticatable
 {
     protected $fillable = [
-        'id', 'name', 'first_name', 'last_name', 'email', 'phone', 'music_genre',
+        'id', 'name', 'first_name', 'last_name', 'email', 'phone', 'music_genre', 'is_admin',
     ];
 
     public $timestamps = false;

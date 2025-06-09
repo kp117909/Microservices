@@ -27,6 +27,7 @@ class User extends Authenticatable
         'zip_code', 
         'phone',
         'music_genre',
+        'is_admin',
         'password', 
     ];
 
