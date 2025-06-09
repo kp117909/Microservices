@@ -91,7 +91,7 @@
 
                             
                             <div class="w-full">
-                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Country')}}</label>
+                                <label for="country" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Country')}}</label>
                                 <input type="country" id="country" name="country" value="{{auth()->user()->country}} "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('country') border-red-500 @enderror" />
                                 @error('country')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
@@ -99,7 +99,7 @@
                             </div>
 
                                <div class="w-full">
-                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('City')}}</label>
+                                <label for="city" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('City')}}</label>
                                 <input type="city" id="city" name="city" value="{{auth()->user()->city}} "class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('city') border-red-500 @enderror" />
                                 @error('city')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
@@ -107,7 +107,7 @@
                             </div>
 
                                <div class="w-full">
-                                <label for="text" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Zip Code')}}</label>
+                                <label for="zip_code" class="block mb-2 text-sm font-bold text-gray-900 dark:text-gray-700">{{__('Zip Code')}}</label>
                                 <input type="zip_code" id="zip_code" name="zip_code" value="{{auth()->user()->zip_code}}"class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500 @error('zip_code') border-red-500 @enderror" />
                                 @error('zip-code')
                                     <div class="text-red-500 text-sm mt-2">{{ $message }}</div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-            <form>
+            </form>
 
             <hr class="my-6 border-gray-300 dark:border-gray-600">
 
@@ -173,47 +173,59 @@
             </div>
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
                 <div class="space-y-8">
-                    
+                    @foreach($user_events as $event)
                     <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
-                       <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 mb-2">
-                        Concert
+                        <span class="bg-green-100 text-blue-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 mb-2">
+                        {{$event['type']}} / {{$event['music_genre']}} 
                         </span>
-                        <h3 class="text-gray-900 dark:text-white text-2xl font-bold mb-2">Summer Music Festival</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Date: 2025-07-10</p>
+                        <h3 class="text-gray-900 dark:text-white text-2xl font-bold mb-2"> {{$event['name']}}</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2"> {{$event['start_time']}} & {{$event['end_time'] ?? ''}} </p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2"> {{$event['location']}} </p>
                         <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
-                        Join us for an unforgettable evening of live music in the heart of the city. Local artists and headline acts will be performing.
+                        {{$event['description']}}
                         </p>
                         <div class="flex justify-between w-full">
-                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                Event Details
-                            </a>
-                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-red-900 hover:bg-red-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                Leave Event
-                            </a>
+                            <form method="POST" action="{{ route('users.event.leave', $event['id']) }}" class="inline">
+                                @csrf
+                                <button type="submit"
+                                    class="inline-flex items-center justify-center text-white bg-red-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                    Leave Event
+                                </button>
+                            </form>
                         </div>
                     </div>
-
-                    <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12">
-                        <span class="bg-green-100 text-green-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-green-400 mb-2">
-                        Meetup
-                        </span>
-                        <h3 class="text-gray-900 dark:text-white text-2xl font-bold mb-2">Jazz Evening</h3>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">Date: 2025-08-02</p>
-                        <p class="text-base text-gray-600 dark:text-gray-300 mb-4">
-                        A cozy café, candlelight, and atmospheric jazz. Let’s meet, chat, and enjoy great music.
-                        </p>
-                        <div class="flex justify-between w-full">
-                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-gray-600 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                Event Details
-                            </a>
-                            <a href="#" class="max-w-[45%] inline-flex items-center justify-center text-white bg-red-900 hover:bg-gray-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                                Leave Event
-                            </a>
-                        </div>
+                    @endforeach
+                    <div class="mt-4">
+                        {{ $user_events->links() }}
                     </div>
                 </div>
             </div>    
         </div>
+
+           @if(session('success'))
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-show="show"
+                    x-transition
+                    class="fixed bottom-4 right-4 max-w-xs bg-purple-900 text-white px-4 py-3 rounded-lg shadow-lg z-50"
+                >
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div
+                    x-data="{ show: true }"
+                    x-init="setTimeout(() => show = false, 4000)"
+                    x-show="show"
+                    x-transition
+                    class="fixed bottom-4 right-4 max-w-xs bg-red-900 text-white px-4 py-3 rounded-lg shadow-lg z-50"
+                >
+                    {{ session('error') }}
+                </div>
+            @endif
+
     </div>
 </div>
 

@@ -3,8 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\UserEventController;
 
 Route::get('/', function () {
     return redirect(env('APP_SERVICE_URL') . '/');
@@ -31,11 +30,11 @@ Route::middleware(['auth'])->group(function () {
     })->name('page.dashboard');
     
 
-    Route::get('/profile', function () {
-        return view('pages.profile');
-    })->name('page.profile');
+    Route::get('/profile', [UserEventController::class, 'getUserEvents'])->name('page.profile');
 
     Route::patch('/users/{id}', [AuthController::class, 'update'])->name('users_form.update');
+
+    Route::post('/users/eventLeave/{eventId}', [UserEventController::class, 'leave'])->name('users.event.leave');
 
     Route::get('logout', function () {
         Auth::logout();

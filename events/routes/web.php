@@ -29,6 +29,10 @@ Route::get('/dashboard', [AuthController::class, 'redirectToUsers'])
 ->middleware('auth.from.session')
 ->name('page.dashboard');
 
+Route::get('/events/user/{userId}', [EventController::class, 'getUserEvents'])
+->middleware('auth.from.session')
+->name('events.users');
+
 Route::get('/profile', function () {
     return redirect(env('USERS_SERVICE_URL') . '/profile');
 })->name('page.profile');
@@ -50,6 +54,7 @@ Route::delete('/events/destroy/{id}', [EventController::class, 'destroy'])
 Route::match(['put', 'patch'], '/events/{id}', [EventController::class, 'update'])
 ->middleware('check.session')
 ->name('event.update');
+
 // Route::get('/dashboard', function () {
 //     return redirect(env('USERS_SERVICE_URL') . '/dashboard');
 // })->name('page.dashboard');

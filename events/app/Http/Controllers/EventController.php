@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Services\EventService;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Http;
@@ -117,5 +118,11 @@ class EventController extends Controller
         $auth = $user !== null;
 
         return view('event', compact('event', 'user', 'sessionId', 'auth'));
+    }
+
+    public function getUserEvents($userId)
+    {
+        $events = app(EventService::class)->getEventsForUser($userId);
+        return response()->json($events);
     }
 }

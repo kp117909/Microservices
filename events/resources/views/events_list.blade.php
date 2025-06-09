@@ -195,13 +195,6 @@
                   <span class="bg-blue-100 text-blue-800 text-xs font-medium inline-block px-2.5 py-0.5 rounded-md dark:bg-gray-700 dark:text-blue-400 mb-2">
                     {{$event->type}} 
                   </span>
-                      @if($user && $user->is_admin)
-                      <div class="flex justify-center">
-                          <button id="deleteButton-{{$event->id}}"  data-modal-target="deleteModal-{{ $event->id }}" data-modal-toggle="deleteModal-{{ $event->id }}"  class="blockbg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center text-white hover:bg-red-700 dark:bg-pink-900 dark:hover:bg-red-800" type="button">
-                            {{__('Show delete confirmation')}}
-                          </button>
-                      </div>
-                      @endif
                       <div id="deleteModal-{{ $event->id }}" tabindex="-1" aria-hidden="true" class="hidden flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-modal md:h-full">
                           <div class="relative p-4 w-full max-w-md h-full md:h-auto">
                               <div class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
@@ -266,7 +259,7 @@
                       data-event-id="{{ $event->id }}"
                       data-dropdown-toggle="dropdownUsers-{{ $event->id }}"
                       data-dropdown-placement="bottom" 
-                      class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm px-3 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+                      class="text-white font-medium text-sm px-3 py-1.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700" 
                       type="button">
                       {{__('Attendees list')}}
                       <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
@@ -274,6 +267,11 @@
                       </svg>
                     </button>
 
+                    @if($user && $user->is_admin)
+                        <button id="deleteButton-{{$event->id}}"  data-modal-target="deleteModal-{{ $event->id }}" data-modal-toggle="deleteModal-{{ $event->id }}"  class="text-white focus:outline-none font-medium text-sm px-3 py-1.5 text-center inline-flex items-center dark:bg-pink-900 dark:hover:bg-pink-800 " type="button">
+                          {{__('Show delete confirmation')}}
+                        </button>
+                      @endif
                     <div id="{{ $dropdownId }}" class="absolute top-full left-0 z-10 hidden bg-white rounded-lg shadow-lg min-w-[12rem] max-h-70 overflow-y-auto dark:bg-gray-700">
                       <div class="p-3">
                         <label for="input-group-search-{{ $event->id }}" class="sr-only">Search</label>

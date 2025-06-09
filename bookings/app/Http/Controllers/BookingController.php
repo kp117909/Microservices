@@ -156,6 +156,15 @@ class BookingController extends Controller
         return response()->json($bookings);
     }
 
+    public function indexByUser(Request $request)
+    {
+
+        $userId = $request->query('user_id');
+        $bookings = Booking::where('user_id', $userId)->get();
+
+        return response()->json($bookings);
+    }
+
      public function indexClean()
         {
             try {
@@ -168,5 +177,32 @@ class BookingController extends Controller
                 ], 500);
             }
         }
+
+        
+    public function destroyByUserAndEvent($userId, $eventId)
+    {
+        try {
+
+            $deletedCount = Booking::where('user_id', $userId)
+                ->where('event_id', $eventId)
+                ->delete();
+
+            if ($deletedCount === 0) {
+                return response()->json(['message' => 'No bookings found for this user and event'], 404);
+            }
+
+            return response()->json([
+                'message' => 'Bookings deleted successfully',
+                'deleted_count' => $deletedCount
+            ], 200);
+
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => 'Failed to delete bookings',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 }

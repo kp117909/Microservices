@@ -7,9 +7,11 @@ use App\Http\Controllers\BookingController;
 Route::prefix('/bookings')->group(function () {
     Route::get('/', [BookingController::class, 'index']);
     Route::get('/byEvent', [BookingController::class, 'indexByEvent']);   
+    Route::get('/byUser', [BookingController::class, 'indexByUser']);  
     Route::get('/clean', [BookingController::class, 'indexClean']);          
     Route::post('/', [BookingController::class, 'store']);      
     Route::get('/{id}', [BookingController::class, 'show']);  
     Route::delete('/{id}', [BookingController::class, 'destroy']); 
     Route::delete('byEvent/{eventId}', [BookingController::class, 'destroyByEvent']); 
+    Route::delete('user/{userId}/event/{eventId}', [BookingController::class, 'destroyByUserAndEvent']); 
 });

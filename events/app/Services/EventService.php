@@ -36,6 +36,21 @@ class EventService
         })->values();
     }
 
+    public function getEventsForUser(int $userId)
+    {
+        
+        $bookings = $this->fetchBookingsByUser($userId);
+        
+
+        $eventIds = collect($bookings)
+        ->where('user_id', $userId)
+        ->pluck('event_id')
+        ->unique()
+        ->toArray();
+
+        return Event::whereIn('id', $eventIds)->get();
+    }
+
     private function fetchBookings(): array
     {
         return cache()->remember('bookings_full_data', 0, function () {
@@ -58,5 +73,26 @@ class EventService
         });
     }
 
+    private function fetchBookingsByUser(int $userId)
+    {
+
+        try {
+            $response = Http::timeout(5)->get("http://bookings/api/bookings/byUser", [
+                'user_id' => $userId
+            ]);
+            
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::warning('Error response with bookings API', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('HTTP Error', ['exception' => $e]);
+        }
+        return ["NO DATA"];
+    }
 
 }
