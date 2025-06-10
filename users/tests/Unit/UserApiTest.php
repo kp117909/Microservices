@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class UserApiTest extends TestCase
 {
     // Czyści baze przed testami
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     // Test pobierania wszystkich użytkowników
     public function test_get_all_users()

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class EventApiTest extends TestCase
 {
     // Czyści baze przed testami
-    // use RefreshDatabase;
+    use RefreshDatabase;
 
     // Test listy wydarzeń
     public function test_get_events_list()
@@ -51,7 +51,7 @@ class EventApiTest extends TestCase
         $response = $this->getJson('/api/events/' . $event->id);
 
         $response->assertStatus(200)
-                 ->assertJson(['name' => $event->name]);
+                ->assertJsonPath('event.name', $event->name);
     }
 
     // Test wyświetlenia nieistniejącego wydarzenia
